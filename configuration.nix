@@ -76,6 +76,7 @@
   fonts.packages = [ pkgs.nerd-fonts.fira-code];
 
   programs.firefox.enable = true;
+  programs.steam.enable = true;
   nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
@@ -99,6 +100,19 @@
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
+  
+  # Use flatpak for:
+  # Spotify
+  # Discord
+  services.flatpak.enable = true;
+  systemd.services.flatpak-repo = {
+    wantedBy = [ "multi-user.target" ];
+    path = [ pkgs.flatpak ];
+    script = ''
+      flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    '';
+  };
+
 
   system.stateVersion = "24.11";
 }

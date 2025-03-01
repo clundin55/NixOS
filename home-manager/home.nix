@@ -27,7 +27,7 @@
   home.packages = [
     pkgs.alacritty
     pkgs.zsh
-    pkgs.tmux
+    pkgs.clang
     pkgs.neovim
     pkgs.ripgrep
     pkgs.fzf
@@ -82,6 +82,25 @@
       "st" = "stash";
       "ps" = "push";
     };
+  };
+
+  programs.tmux = {
+    enable = true;
+    shell = "${pkgs.zsh}/bin/zsh";
+    plugins = [
+      {
+        plugin = pkgs.tmuxPlugins.dracula;
+      }
+      {
+        plugin = pkgs.tmuxPlugins.sensible;
+      }
+      {
+        plugin = pkgs.tmuxPlugins.continuum;
+      }
+      {
+        plugin = pkgs.tmuxPlugins.resurrect;
+      }
+    ];
   };
 
   services.gpg-agent = {
