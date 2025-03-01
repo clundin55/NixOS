@@ -1,0 +1,94 @@
+autoload -Uz compinit
+fpath+=~/.zfunc
+compinit
+
+HIST_STAMPS="mm/dd/yyyy"
+
+# Add VIM mode.
+bindkey -v
+
+PROMPT='%W %T %n@%m %d > '
+export PATH="$PATH:$HOME/.local/bin"
+
+# TODO Maybe wrap this in a function and parameterize the MODEL
+function ask {
+    ollama run llama3.2:latest $1
+}
+
+function randir()
+{
+  TMP_DIR=$(mktemp -d)
+  pushd $TMP_DIR
+}
+
+alias createpyenv='python -m venv env && source env/bin/activate'
+tmks() {
+  tmux kill-session -t $(tmux ls | fzf | cut -d' ' -f 1)
+}
+
+tma() {
+  tmux a -t $(tmux ls | fzf | cut -d' ' -f 1)
+}
+
+alias tsm='transmission-remote 192.168.50.33:9091'
+alias rzsh="source ~/.zshrc"
+alias fls="ls | fzf"
+alias bmv="bulk-renamer"
+
+alias gr="git r"
+alias grs="git rs"
+alias gb="git b"
+alias gco="git co"
+alias gc="git c"
+alias gd="git d"
+alias gsw="git sw"
+alias gl="git l"
+alias gst="git st"
+alias gps="git ps"
+
+function lightterm() {
+    if [[ $OSTYPE == 'darwin'* ]]; then
+        sed -i '' '1s/".*"/"~\/.config\/alacritty\/paper.toml"/' ~/.config/alacritty/alacritty.toml
+    else
+        sed -i '1s/".*"/"~\/.config\/alacritty\/paper.toml"/' ~/.config/alacritty/alacritty.toml
+    fi
+
+}
+
+function darkterm() {
+    if [[ $OSTYPE == 'darwin'* ]]; then
+        sed -i '' '1s/".*"/"~\/.config\/alacritty\/darcula.toml"/' ~/.config/alacritty/alacritty.toml
+    else
+        sed -i '1s/".*"/"~\/.config\/alacritty\/darcula.toml"/' ~/.config/alacritty/alacritty.toml
+    fi
+}
+
+
+# Create a random temp dir and navigate to it.
+function rndd() {
+    DIR=$(mktemp -d)
+    pushd $DIR
+}
+
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=10000000
+SAVEHIST=10000000
+setopt BANG_HIST                 # Treat the '!' character specially during expansion.
+setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
+setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
+setopt SHARE_HISTORY             # Share history between all sessions.
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming history.
+setopt HIST_IGNORE_DUPS          # Don't record an entry that was just recorded again.
+setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate.
+setopt HIST_FIND_NO_DUPS         # Do not display a line previously found.
+setopt HIST_IGNORE_SPACE         # Don't record an entry starting with a space.
+setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history file.
+setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
+setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
+setopt HIST_BEEP                 # Beep when accessing nonexistent history.
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+eval "$(scmpuff init -s)"
+
+# Rebind capslock to escape
+#  setxkbmap -option caps:escape
