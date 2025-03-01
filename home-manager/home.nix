@@ -5,7 +5,23 @@
   home.homeDirectory = "/home/carl";
   home.language.base = "en_US.UTF-8";
 
-  programs.zsh.enable = true;
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    autosuggestion.enable = true;
+    plugins = [
+      {
+        # will source zsh-autosuggestions.plugin.zsh
+        name = "zsh-autosuggestions";
+        src = pkgs.fetchFromGitHub {
+          owner = "zsh-users";
+          repo = "zsh-autosuggestions";
+          rev = "v0.7.1";
+          sha256 = "vpTyYq9ZgfgdDsWzjxVAE7FZH4MALMNZIFyEOBLm5Qo=";
+        };
+      }
+    ];
+  };
   home.shell.enableZshIntegration = true;
 
   home.packages = [
@@ -66,6 +82,13 @@
       "st" = "stash";
       "ps" = "push";
     };
+  };
+
+  services.gpg-agent = {
+    enable = true;
+    defaultCacheTtl = 1800;
+    enableSshSupport = true;
+    pinentryPackage = pkgs.pinentry-tty;
   };
 
   programs.home-manager.enable = true;
