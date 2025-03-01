@@ -22,6 +22,8 @@
     pkgs.difftastic # binary is difft
     pkgs.tealdeer
     pkgs.pass
+    pkgs.gnupg
+    pkgs.pinentry-tty
     pkgs.tree
     pkgs.scmpuff
     pkgs.go

@@ -89,9 +89,13 @@
       kdePackages.kate
       vim
       git
+      wl-clipboard
+ 
     #  thunderbird
     ];
   };
+
+  fonts.packages = [ pkgs.nerd-fonts.fira-code];
 
   # Install firefox.
   programs.firefox.enable = true;
