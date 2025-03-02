@@ -54,6 +54,7 @@
     ".config/alacritty/darcula.toml".source = dotfiles/darculatoml;
     ".config/alacritty/paper.toml".source = dotfiles/papertoml;
     ".config/hypr/hyprland.conf".source = dotfiles/hyprlandconf;
+    ".config/hypr/hyprlock.conf".source = dotfiles/hyprlockconf;
     ".config/hypr/hyprpaper.conf".source = dotfiles/hyprpaperconf;
     ".config/waybar/config".source = dotfiles/waybarconf;
     ".config/waybar/style.css".source = dotfiles/waybarstyle;
