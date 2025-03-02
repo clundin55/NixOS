@@ -48,7 +48,7 @@
   };
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -80,6 +80,8 @@
     wl-clipboard
     zsh
     hyprpaper
+    transmission_4
+    nvtopPackages.amd
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -111,6 +113,10 @@
   programs.hyprland.withUWSM = true;
   programs.hyprlock.enable = true;
   programs.waybar.enable = true;
+
+  services.ollama.enable = true;
+  services.ollama.rocmOverrideGfx = "10.3.0";
+  services.ollama.acceleration = "rocm";
 
   system.stateVersion = "24.11";
 }
