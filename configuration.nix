@@ -47,16 +47,12 @@
     variant = "";
   };
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
-    alsa.support32Bit = true;
     pulse.enable = true;
   };
 
@@ -68,9 +64,6 @@
     shell = pkgs.zsh;
     description = "Carl Lundin";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-      kdePackages.kate
-    ];
   };
 
   fonts.packages = [ pkgs.nerd-fonts.fira-code];
@@ -86,6 +79,7 @@
     git
     wl-clipboard
     zsh
+    hyprpaper
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -113,6 +107,10 @@
     '';
   };
 
+  programs.hyprland.enable = true;
+  programs.hyprland.withUWSM = true;
+  programs.hyprlock.enable = true;
+  programs.waybar.enable = true;
 
   system.stateVersion = "24.11";
 }
