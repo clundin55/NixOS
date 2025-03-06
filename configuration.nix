@@ -124,5 +124,7 @@
   services.ollama.rocmOverrideGfx = "10.3.0";
   services.ollama.acceleration = "rocm";
 
+  hardware.amdgpu.opencl.enable = true;
+
   system.stateVersion = "24.11";
 }
