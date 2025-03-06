@@ -18,6 +18,10 @@
   networking.networkmanager.enable = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.gc.automatic = true;
+  nix.gc.persistent = true;
+  nix.gc.dates = "weekly";
+
   
   time.timeZone = "America/Los_Angeles";
   i18n.defaultLocale = "en_US.UTF-8";
