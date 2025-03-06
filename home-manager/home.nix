@@ -44,6 +44,8 @@
     pkgs.scmpuff
     pkgs.go
     pkgs.gopls
+    pkgs.ccls
+    pkgs.bear
   ];
 
   home.file = {

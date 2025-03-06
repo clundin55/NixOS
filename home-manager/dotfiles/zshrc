@@ -35,7 +35,7 @@ alias rzsh="source ~/.zshrc"
 alias fls="ls | fzf"
 alias bmv="bulk-renamer"
 
-alias gr="git r"
+alias gr="git r -v"
 alias grs="git rs"
 alias gb="git b"
 alias gco="git co"
@@ -45,6 +45,9 @@ alias gsw="git sw"
 alias gl="git l"
 alias gst="git st"
 alias gps="git ps"
+alias gpsf="git ps --force-with-lease"
+alias gf="git fetch"
+alias grb="git rebase"
 
 function lightterm() {
     if [[ $OSTYPE == 'darwin'* ]]; then

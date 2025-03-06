@@ -55,7 +55,6 @@ require("lazy").setup({
         "tpope/vim-obsession",
         "voldikss/vim-floaterm",
         "jremmen/vim-ripgrep",
-        "mrcjkb/rustaceanvim",
         "kyazdani42/nvim-web-devicons",
         "kyazdani42/nvim-tree.lua",
         "nvim-treesitter/nvim-treesitter",
@@ -104,7 +103,7 @@ require'nvim-treesitter.configs'.setup {
 -- vim.opt.foldmethod = "expr"
 -- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 
-vim.cmd[[colorscheme tokyonight]]
+vim.cmd[[colorscheme tokyonight-night]]
 
 -- Nvim Tree Mappings
 vim.api.nvim_set_keymap('n', '<leader>o', ':NvimTreeToggle<cr>', {noremap=true})
@@ -139,7 +138,7 @@ vim.api.nvim_set_keymap('n', '<leader>vh', ':e ~/.config/hypr/hyprland.conf<cr>'
 -- map buffer local keybindings when the language server attaches
 local nvim_lsp = require('lspconfig')
 
-local servers = { 'gopls' }
+local servers = { 'rust_analyzer', 'gopls', 'ccls' }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
