@@ -5,10 +5,9 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ 
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -17,12 +16,14 @@
   networking.hostName = "loki"; # Define your hostname.
   networking.networkmanager.enable = true;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   nix.gc.automatic = true;
   nix.gc.persistent = true;
   nix.gc.dates = "weekly";
 
-  
   time.timeZone = "America/Los_Angeles";
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
@@ -40,7 +41,6 @@
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
   services.xserver.enable = false;
-
 
   services.playerctld.enable = true;
 
@@ -71,13 +71,19 @@
     isNormalUser = true;
     shell = pkgs.zsh;
     description = "Carl Lundin";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
   };
 
-  fonts.packages = [ pkgs.nerd-fonts.fira-code];
+  fonts.packages = [ pkgs.nerd-fonts.fira-code ];
 
   programs.firefox.enable = true;
   programs.steam.enable = true;
+  programs.neovim.enable = true;
+  programs.neovim.defaultEditor = true;
+
   nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
@@ -105,7 +111,7 @@
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
-  
+
   # Use flatpak for:
   # Spotify
   # Discord
