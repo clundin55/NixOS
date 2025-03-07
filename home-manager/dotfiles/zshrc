@@ -92,6 +92,3 @@ setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 eval "$(scmpuff init -s)"
-
-# Rebind capslock to escape
-#  setxkbmap -option caps:escape
