@@ -43,6 +43,7 @@
   services.xserver.enable = false;
 
   services.playerctld.enable = true;
+  services.tailscale.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
@@ -110,7 +111,8 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = true;
+  services.openssh.settings.PasswordAuthentication = false;
 
   # Use flatpak for:
   # Spotify
