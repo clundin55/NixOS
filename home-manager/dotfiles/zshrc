@@ -37,6 +37,7 @@ alias bmv="bulk-renamer"
 
 alias gr="git r -v"
 alias grs="git rs"
+alias grsh="git rs --hard"
 alias gb="git b"
 alias gco="git co"
 alias gc="git c"
