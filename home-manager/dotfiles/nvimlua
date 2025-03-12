@@ -78,7 +78,20 @@ require("lazy").setup({
         {
           "MeanderingProgrammer/render-markdown.nvim",
           ft = { "markdown", "codecompanion" }
-	},
+        },
+        {
+          'mrcjkb/rustaceanvim',
+          version = '^5',
+          lazy = false,
+          ft = { "rust" },
+          config = function()
+            vim.g.rustaceanvim = {
+              server = {
+                on_attach = on_attach
+              },
+            }
+          end,
+        },
     }
 })
 
@@ -117,8 +130,14 @@ vim.api.nvim_set_keymap('t', '<leader>tt', '<C-\\><c-n>:FloatermToggle<cr>', {no
 -- Telescope mappings
 vim.api.nvim_set_keymap('n', '<leader>ff', ':Telescope find_files<cr>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>fg', ':Telescope live_grep<cr>', {noremap=true})
+vim.api.nvim_set_keymap('n', '<leader>fgr', [[:lua require'telescope.builtin'.lsp_references()<cr>]], {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>fb', ':Telescope buffers<cr>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>fh', ':Telescope help_tags<cr>', {noremap=true})
+vim.api.nvim_set_keymap('n', '<leader>fe', [[:lua require'telescope.builtin'.diagnostics()<cr>]], {noremap=true})
+vim.api.nvim_set_keymap('n', '<leader>fw', [[:lua require'telescope.builtin'.grep_string()<cr>]], {noremap=true})
+vim.api.nvim_set_keymap('n', '<leader>ft', [[:lua require'telescope.builtin'.git_files()<cr>]], {noremap=true})
+vim.api.nvim_set_keymap('n', '<leader>fgs', [[:lua require'telescope.builtin'.git_status()<cr>]], {noremap=true})
+vim.api.nvim_set_keymap('n', '<leader>fgc', [[:lua require'telescope.builtin'.git_commits()<cr>]], {noremap=true})
 
 -- Cargo bindings
 vim.api.nvim_set_keymap('n', '<leader>cb', ':! cargo build<CR>', {noremap=true})
@@ -138,7 +157,7 @@ vim.api.nvim_set_keymap('n', '<leader>vh', ':e ~/.config/hypr/hyprland.conf<cr>'
 -- map buffer local keybindings when the language server attaches
 local nvim_lsp = require('lspconfig')
 
-local servers = { 'rust_analyzer', 'gopls', 'ccls' }
+local servers = { 'gopls', 'ccls' }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
@@ -155,7 +174,7 @@ vim.api.nvim_set_keymap('n', '<leader>gD', '<cmd>lua vim.lsp.buf.declaration()<C
 vim.api.nvim_set_keymap('n', '<leader>gd', '<cmd>lua vim.lsp.buf.type_definition()<CR>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>K', '<cmd>lua vim.lsp.buf.hover()<CR>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>gq', '<cmd>lua vim.lsp.buf.implementation()<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader><C-k>', '<cmd>lua vim.buf.signature_help()<CR>', {noremap=true})
+vim.api.nvim_set_keymap('n', '<leader><C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>wa', '<cmd>lua vim.buf.add_workspace_folder()<CR>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>wr', '<cmd>lua vim.buf.remove_workspace_folder()<CR>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', {noremap=true})
