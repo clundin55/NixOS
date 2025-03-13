@@ -45,9 +45,15 @@
   services.playerctld.enable = true;
   services.tailscale.enable = true;
 
-  # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.displayManager.sddm.wayland.enable = true;
+
+  services.displayManager.sddm = {
+    enable = true;
+    theme = "sddm-astronaut-theme";
+    package = pkgs.kdePackages.sddm;
+    extraPackages = [pkgs.sddm-astronaut];
+    wayland.enable = true;
+
+  };
   services.desktopManager.plasma6.enable = false;
 
   # Configure keymap in X11
@@ -98,6 +104,7 @@
     transmission_4
     nvtopPackages.amd
     rustup
+    ((pkgs.sddm-astronaut.override{ embeddedTheme = "post-apocalyptic_hacker"; }))
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
