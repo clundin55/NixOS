@@ -66,6 +66,7 @@
     USING_HOME_MANAGER = "true";
     EDITOR = "nvim";
     GIT_EXTERNAL_DIFF = "difft";
+    # DOCKER_HOST = "unix://$XDG_RUNTIME_DIR/docker.sock";
   };
 
   programs.git = {

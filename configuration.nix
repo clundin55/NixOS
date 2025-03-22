@@ -143,6 +143,19 @@
   services.ollama.acceleration = "rocm";
 
   hardware.amdgpu.opencl.enable = true;
+  hardware.bluetooth.enable = false;
+
+  services.blueman.enable = false;
+
+  virtualisation.docker.enable = false;
+
+  # Add udev rules for: 
+  # - Xilinx FTDI chip.
+  # - SDWIRE FTDI chip.
+  services.udev.extraRules = ''
+  SUBSYSTEMS=="usb", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6011", OWNER="carl", GROUP="users"
+  SUBSYSTEMS=="usb", ATTRS{idVendor}=="04e8", ATTRS{idProduct}=="6001", OWNER="carl", GROUP="users"
+  '';
 
   system.stateVersion = "24.11";
 }
