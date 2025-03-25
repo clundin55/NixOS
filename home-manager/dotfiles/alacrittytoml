@@ -15,6 +15,7 @@ dynamic_title = true
 opacity = 0.8
 startup_mode = "Windowed"
 title = "Alacritty"
+option_as_alt = "OnlyLeft"
 
 [window.padding]
 x = 16
