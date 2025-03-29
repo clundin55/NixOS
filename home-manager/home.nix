@@ -51,15 +51,15 @@
   home.file = {
     ".zshrc".source = dotfiles/zshrc;
     ".inputrc".source = dotfiles/inputrc;
-    ".config/nvim/init.lua".source = dotfiles/nvimlua;
-    ".config/alacritty/alacritty.toml".source = dotfiles/alacrittytoml;
-    ".config/alacritty/darcula.toml".source = dotfiles/darculatoml;
-    ".config/alacritty/paper.toml".source = dotfiles/papertoml;
-    ".config/hypr/hyprland.conf".source = dotfiles/hyprlandconf;
-    ".config/hypr/hyprlock.conf".source = dotfiles/hyprlockconf;
-    ".config/hypr/hyprpaper.conf".source = dotfiles/hyprpaperconf;
-    ".config/waybar/config".source = dotfiles/waybarconf;
-    ".config/waybar/style.css".source = dotfiles/waybarstyle;
+    ".config/nvim/init.lua".source = dotfiles/nvim.lua;
+    ".config/alacritty/alacritty.toml".source = dotfiles/alacritty.toml;
+    ".config/alacritty/darcula.toml".source = dotfiles/darcula.toml;
+    ".config/alacritty/paper.toml".source = dotfiles/paper.toml;
+    ".config/hypr/hyprland.conf".source = dotfiles/hyprland.conf;
+    ".config/hypr/hyprlock.conf".source = dotfiles/hyprlock.conf;
+    ".config/hypr/hyprpaper.conf".source = dotfiles/hyprpaper.conf;
+    ".config/waybar/config".source = dotfiles/waybar.conf;
+    ".config/waybar/style.css".source = dotfiles/waybar.style;
   };
 
   home.sessionVariables = {
