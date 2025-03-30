@@ -104,6 +104,8 @@
     transmission_4
     nvtopPackages.amd
     rustup
+    gdb
+    mullvad
     ((pkgs.sddm-astronaut.override{ embeddedTheme = "post-apocalyptic_hacker"; }))
   ];
 
@@ -146,6 +148,7 @@
   hardware.bluetooth.enable = false;
 
   services.blueman.enable = false;
+  services.mullvad-vpn.enable = true;
 
   virtualisation.docker.enable = false;
 
