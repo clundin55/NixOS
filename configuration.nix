@@ -100,6 +100,8 @@
     git
     wl-clipboard
     zsh
+    zip
+    unzip
     hyprpaper
     transmission_4
     nvtopPackages.amd
@@ -150,7 +152,7 @@
   services.blueman.enable = false;
   services.mullvad-vpn.enable = true;
 
-  virtualisation.docker.enable = false;
+  virtualisation.docker.enable = true;
 
   # Add udev rules for: 
   # - Xilinx FTDI chip.
