@@ -81,6 +81,7 @@
     extraGroups = [
       "networkmanager"
       "wheel"
+      "docker"
     ];
   };
 
@@ -152,7 +153,13 @@
   services.blueman.enable = false;
   services.mullvad-vpn.enable = true;
 
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    rootless = {
+      enable = true;
+      setSocketVariable = true;
+    };
+  };
 
   # Add udev rules for: 
   # - Xilinx FTDI chip.
