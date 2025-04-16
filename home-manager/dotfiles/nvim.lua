@@ -1,5 +1,4 @@
 -- Carl Lundin
--- Set up common options
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 vim.opt.laststatus=2
@@ -66,55 +65,56 @@ require("lazy").setup({
         "hrsh7th/cmp-buffer",
         "nvim-lualine/lualine.nvim",
         {
-            "olimorris/codecompanion.nvim",
-            config = function()
-                require("codecompanion").setup({})
-            end,
-            requires = {
-                "nvim-lua/plenary.nvim",
-                "nvim-treesitter/nvim-treesitter",
-            }
-        },
-        {
           "MeanderingProgrammer/render-markdown.nvim",
           ft = { "markdown", "codecompanion" }
         },
         {
-          'mrcjkb/rustaceanvim',
-          version = '^5',
-          lazy = false,
-          ft = { "rust" },
-          config = function()
-            vim.g.rustaceanvim = {
-              server = {
-                on_attach = on_attach
+          "yetone/avante.nvim",
+          event = "VeryLazy",
+          version = false,
+          opts = {
+            provider = "ollama",
+            ollama = {
+              model = "gemma3:4b",
+              timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
+              temperature = 0,
+              max_completion_tokens = 8192, 
+            },
+          },
+          build = "make BUILD_FROM_SOURCE=true",
+          dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+            "stevearc/dressing.nvim",
+            "nvim-lua/plenary.nvim",
+            "MunifTanjim/nui.nvim",
+            "echasnovski/mini.pick", -- for file_selector provider mini.pick
+            "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
+            "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
+            "ibhagwan/fzf-lua", -- for file_selector provider fzf
+            "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+            {
+              'MeanderingProgrammer/render-markdown.nvim',
+              opts = {
+                file_types = { "markdown", "Avante" },
               },
-            }
-          end,
-        },
+              ft = { "markdown", "Avante" },
+            },
+          },
+        }
     }
 })
 
--- enable nvim-ree
 require'nvim-tree'.setup {
 }
 
--- enable tree-sitter
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "rust", "markdown", "python", "c", "lua", "nix" }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
+  ensure_installed = { "rust", "markdown", "python", "c", "lua", "nix" },
+  sync_install = false,
   highlight = {
-    enable = true,              -- false will disable the whole extension
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
+    enable = true,
     additional_vim_regex_highlighting = false,
   },
 }
-
--- vim.opt.foldmethod = "expr"
--- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 
 vim.cmd[[colorscheme tokyonight-night]]
 
@@ -157,7 +157,7 @@ vim.api.nvim_set_keymap('n', '<leader>vh', ':e ~/.config/hypr/hyprland.conf<cr>'
 -- map buffer local keybindings when the language server attaches
 local nvim_lsp = require('lspconfig')
 
-local servers = { 'gopls', 'ccls' }
+local servers = { 'gopls', 'ccls', 'rust_analyzer' }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
@@ -259,38 +259,6 @@ require'lualine'.setup {
   extensions = {}
 }
 
-
--- TODO: Document how I installed devicons on Linux and MacOS
--- Make sure to install nerd fonts and one with dev icons.
 require'nvim-web-devicons'.setup {
  default = true;
 }
-
-require("codecompanion").setup({
-  strategies = {
-    chat = {
-      adapter = "llama3",
-    },
-    inline = {
-      adapter = "llama3",
-    },
-  },
-  adapters = {
-    llama3 = function()
-      return require("codecompanion.adapters").extend("ollama", {
-        name = "llama3", -- Give this adapter a different name to differentiate it from the default ollama adapter
-        schema = {
-          model = {
-            default = "deepseek-r1:14b",
-          },
-          num_ctx = {
-            default = 16384,
-          },
-          num_predict = {
-            default = -1,
-          },
-        },
-      })
-    end,
-  },
-})

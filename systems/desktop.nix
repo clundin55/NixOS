@@ -16,6 +16,7 @@
     gopls
     ccls
     bear
+    gnumake
   ];
 
   programs.steam.enable = true;
