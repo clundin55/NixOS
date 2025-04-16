@@ -15,6 +15,7 @@
           system = "x86_64-linux";
           modules = [
             ./configuration.nix
+            ./systems/desktop.nix
             ./hardware-configuration.nix
             home-manager.nixosModules.home-manager
             {
@@ -25,6 +26,5 @@
           ];
         };
       };
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
     };
 }

@@ -11,7 +11,6 @@
     autosuggestion.enable = true;
     plugins = [
       {
-        # will source zsh-autosuggestions.plugin.zsh
         name = "zsh-autosuggestions";
         src = pkgs.fetchFromGitHub {
           owner = "zsh-users";
@@ -22,30 +21,24 @@
       }
     ];
   };
+
   home.shell.enableZshIntegration = true;
 
-  home.packages = [
-    pkgs.alacritty
-    pkgs.zsh
-    pkgs.clang
-    pkgs.neovim
-    pkgs.ripgrep
-    pkgs.fzf
-    pkgs.jq
-    pkgs.gh # GitHub CLI
-    pkgs.htop
-    pkgs.fd
-    pkgs.difftastic # binary is difft
-    pkgs.tealdeer
-    pkgs.pass
-    pkgs.gnupg
-    pkgs.pinentry-tty
-    pkgs.tree
-    pkgs.scmpuff
-    pkgs.go
-    pkgs.gopls
-    pkgs.ccls
-    pkgs.bear
+  home.packages = with pkgs; [
+    neovim
+    ripgrep
+    fzf
+    jq
+    gh # GitHub CLI
+    htop
+    fd
+    difftastic # binary is difft
+    tealdeer
+    pass
+    gnupg
+    pinentry-tty
+    tree
+    scmpuff
   ];
 
   home.file = {
@@ -66,7 +59,6 @@
     USING_HOME_MANAGER = "true";
     EDITOR = "nvim";
     GIT_EXTERNAL_DIFF = "difft";
-    # DOCKER_HOST = "unix://$XDG_RUNTIME_DIR/docker.sock";
   };
 
   programs.git = {
@@ -81,6 +73,7 @@
       "d" = "diff";
       "sw" = "switch";
       "rs" = "reset";
+      "rsh" = "reset --hard";
       "l" = "log";
       "st" = "stash";
       "ps" = "push";
