@@ -10,18 +10,12 @@ bindkey -v
 PROMPT='%W %T %n@%m %d > '
 export PATH="$PATH:$HOME/.local/bin"
 
-# TODO Maybe wrap this in a function and parameterize the MODEL
-function ask {
-    ollama run llama3.2:latest $1
-}
-
 function randir()
 {
   TMP_DIR=$(mktemp -d)
   pushd $TMP_DIR
 }
 
-alias createpyenv='python -m venv env && source env/bin/activate'
 tmks() {
   tmux kill-session -t $(tmux ls | fzf | cut -d' ' -f 1)
 }
@@ -30,10 +24,7 @@ tma() {
   tmux a -t $(tmux ls | fzf | cut -d' ' -f 1)
 }
 
-alias tsm='transmission-remote 192.168.50.33:9091'
 alias rzsh="source ~/.zshrc"
-alias fls="ls | fzf"
-alias bmv="bulk-renamer"
 
 alias gr="git r -v"
 alias grs="git rs"
@@ -49,24 +40,6 @@ alias gps="git ps"
 alias gpsf="git ps --force-with-lease"
 alias gf="git fetch"
 alias grb="git rebase"
-
-function lightterm() {
-    if [[ $OSTYPE == 'darwin'* ]]; then
-        sed -i '' '1s/".*"/"~\/.config\/alacritty\/paper.toml"/' ~/.config/alacritty/alacritty.toml
-    else
-        sed -i '1s/".*"/"~\/.config\/alacritty\/paper.toml"/' ~/.config/alacritty/alacritty.toml
-    fi
-
-}
-
-function darkterm() {
-    if [[ $OSTYPE == 'darwin'* ]]; then
-        sed -i '' '1s/".*"/"~\/.config\/alacritty\/darcula.toml"/' ~/.config/alacritty/alacritty.toml
-    else
-        sed -i '1s/".*"/"~\/.config\/alacritty\/darcula.toml"/' ~/.config/alacritty/alacritty.toml
-    fi
-}
-
 
 # Create a random temp dir and navigate to it.
 function rndd() {
@@ -90,7 +63,6 @@ setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history 
 setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
 setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
 setopt HIST_BEEP                 # Beep when accessing nonexistent history.
-source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 source <(fzf --zsh)
 

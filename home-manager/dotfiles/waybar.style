@@ -68,11 +68,17 @@
 #battery,
 #pulseaudio,
 #custom-lock,
+#network,
 #language,
 #custom-power {
   background-color: @surface0;
   padding: 0.5rem 1rem;
   margin-left: 10px;
+}
+
+#network {
+  color: @teal;
+  border-radius: 1rem;
 }
 
 #clock {
