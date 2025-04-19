@@ -73,12 +73,9 @@ require("lazy").setup({
           event = "VeryLazy",
           version = false,
           opts = {
-            provider = "ollama",
-            ollama = {
-              model = "gemma3:4b",
-              timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
-              temperature = 0,
-              max_completion_tokens = 8192, 
+            provider = "gemini",
+            gemini = {
+                model = "gemini-2.5-pro-exp-03-25",
             },
           },
           build = "make BUILD_FROM_SOURCE=true",
@@ -124,8 +121,6 @@ vim.api.nvim_set_keymap('n', '<leader>o', ':NvimTreeToggle<cr>', {noremap=true})
 -- Floaterm mappings
 vim.api.nvim_set_keymap('n', '<leader>tc', ':FloatermNew<cr>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>tt', '<C-\\><c-n>:FloatermToggle<cr>', {noremap=true})
--- Terminal mode toggle
-vim.api.nvim_set_keymap('t', '<leader>tt', '<C-\\><c-n>:FloatermToggle<cr>', {noremap=true})
 
 -- Telescope mappings
 vim.api.nvim_set_keymap('n', '<leader>ff', ':Telescope find_files<cr>', {noremap=true})
@@ -151,7 +146,6 @@ vim.api.nvim_set_keymap('n', '<leader>cd', ':! cargo doc --open<CR>', {noremap=t
 vim.api.nvim_set_keymap('n', '<leader>ve', ':e ~/.config/nvim/init.lua<cr>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>vs', ':source ~/.config/nvim/init.lua<cr>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>vz', ':e ~/.zshrc<cr>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>vh', ':e ~/.config/hypr/hyprland.conf<cr>', {noremap=true})
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
