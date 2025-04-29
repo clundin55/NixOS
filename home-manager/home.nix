@@ -29,10 +29,10 @@
     ripgrep
     fzf
     jq
-    gh # GitHub CLI
+    gh
     htop
     fd
-    difftastic # binary is difft
+    difftastic
     tealdeer
     pass
     gnupg

@@ -1,4 +1,3 @@
--- Carl Lundin
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 vim.opt.laststatus=2
@@ -115,14 +114,11 @@ require'nvim-treesitter.configs'.setup {
 
 vim.cmd[[colorscheme tokyonight-night]]
 
--- Nvim Tree Mappings
 vim.api.nvim_set_keymap('n', '<leader>o', ':NvimTreeToggle<cr>', {noremap=true})
 
--- Floaterm mappings
 vim.api.nvim_set_keymap('n', '<leader>tc', ':FloatermNew<cr>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>tt', '<C-\\><c-n>:FloatermToggle<cr>', {noremap=true})
 
--- Telescope mappings
 vim.api.nvim_set_keymap('n', '<leader>ff', ':Telescope find_files<cr>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>fg', ':Telescope live_grep<cr>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>fgr', [[:lua require'telescope.builtin'.lsp_references()<cr>]], {noremap=true})
@@ -134,7 +130,6 @@ vim.api.nvim_set_keymap('n', '<leader>ft', [[:lua require'telescope.builtin'.git
 vim.api.nvim_set_keymap('n', '<leader>fgs', [[:lua require'telescope.builtin'.git_status()<cr>]], {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>fgc', [[:lua require'telescope.builtin'.git_commits()<cr>]], {noremap=true})
 
--- Cargo bindings
 vim.api.nvim_set_keymap('n', '<leader>cb', ':! cargo build<CR>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>cc', ':! cargo check<CR>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>ct', ':! cargo test<CR>', {noremap=true})
@@ -142,13 +137,10 @@ vim.api.nvim_set_keymap('n', '<leader>cl', ':! cargo clippy<CR>', {noremap=true}
 vim.api.nvim_set_keymap('n', '<leader>cf', ':! cargo fmt<CR>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>cd', ':! cargo doc --open<CR>', {noremap=true})
 
--- nice to have for neovim config
 vim.api.nvim_set_keymap('n', '<leader>ve', ':e ~/.config/nvim/init.lua<cr>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>vs', ':source ~/.config/nvim/init.lua<cr>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>vz', ':e ~/.zshrc<cr>', {noremap=true})
 
--- Use a loop to conveniently call 'setup' on multiple servers and
--- map buffer local keybindings when the language server attaches
 local nvim_lsp = require('lspconfig')
 
 local servers = { 'gopls', 'ccls', 'rust_analyzer' }
@@ -163,7 +155,6 @@ end
 
 vim.lsp.inlay_hint.enable(true)
 
--- See `:help vim.lsp.*` for documentation on any of the below functions
 vim.api.nvim_set_keymap('n', '<leader>gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>gd', '<cmd>lua vim.lsp.buf.type_definition()<CR>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>K', '<cmd>lua vim.lsp.buf.hover()<CR>', {noremap=true})
@@ -182,10 +173,8 @@ vim.api.nvim_set_keymap('n', '<leader>]d', '<cmd>lua vim.diagnostic.goto_next()<
 vim.api.nvim_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.set_loclist()<CR>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', {noremap=true})
 
--- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
 
--- nvim-cmp setup
 local cmp = require 'cmp'
 cmp.setup {
   mapping = {

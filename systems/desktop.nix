@@ -2,6 +2,7 @@
 { config, pkgs, ... }: 
 
 {
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   networking.hostName = "loki";
   networking.networkmanager.enable = true;
 

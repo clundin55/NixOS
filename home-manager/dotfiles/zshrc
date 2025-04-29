@@ -4,7 +4,6 @@ compinit
 
 HIST_STAMPS="mm/dd/yyyy"
 
-# Add VIM mode.
 bindkey -v
 
 PROMPT='%W %T %n@%m %d > '
