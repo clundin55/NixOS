@@ -1,5 +1,5 @@
 {
-  description = "NixOS configuration";
+  description = "Carl Lundin's NixOS systems";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -23,6 +23,13 @@
               home-manager.useUserPackages = true;
               home-manager.users.carl = import ./home-manager/home.nix;
             }
+          ];
+        };
+        floki = nixpkgs.lib.nixosSystem {
+          system = "aarch64-linux";
+          modules = [
+            ./configuration.nix
+            ./systems/rpi.nix
           ];
         };
       };

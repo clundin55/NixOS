@@ -5,10 +5,6 @@
     ./hardware-configuration.nix
   ];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.systemd-boot.configurationLimit = 20;
-  boot.loader.efi.canTouchEfiVariables = true;
-
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
@@ -31,28 +27,6 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  services.xserver.enable = false;
-  services.playerctld.enable = true;
-  services.tailscale.enable = true;
-
-  services.displayManager.sddm = {
-    enable = true;
-    theme = "sddm-astronaut-theme";
-    package = pkgs.kdePackages.sddm;
-    extraPackages = [pkgs.sddm-astronaut];
-    wayland.enable = true;
-  };
-
-  services.desktopManager.plasma6.enable = false;
-
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
-  };
-
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
   users.users.carl = {
@@ -64,11 +38,13 @@
       "wheel"
       "docker"
     ];
+    openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMPHPeLSIQgoO2MZCxAXoVxaaZVC0hp1oa81cFO3/zDf carl@nixos"
+    ];
   };
 
   fonts.packages = [ pkgs.nerd-fonts.fira-code ];
 
-  programs.firefox.enable = true;
   programs.neovim.enable = true;
   programs.neovim.defaultEditor = true;
 
@@ -81,13 +57,7 @@
     zip
     unzip
     mullvad
-    ((pkgs.sddm-astronaut.override{ embeddedTheme = "post-apocalyptic_hacker"; }))
   ];
-
-  programs.hyprland.enable = true;
-  programs.hyprland.withUWSM = true;
-  programs.hyprlock.enable = true;
-  programs.waybar.enable = true;
 
   services.mullvad-vpn.enable = true;
   system.stateVersion = "24.11";
