@@ -23,6 +23,8 @@
     LC_TIME = "en_US.UTF-8";
   };
 
+  networking.extraHosts = "192.168.50.33 local.clundin.dev";
+
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
   users.users.carl = {
