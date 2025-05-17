@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, isLaptop ? false, ... }:
 
 {
   home.username = "carl";
@@ -51,8 +51,8 @@
     ".config/hypr/hyprland.conf".source = dotfiles/hyprland.conf;
     ".config/hypr/hyprlock.conf".source = dotfiles/hyprlock.conf;
     ".config/hypr/hyprpaper.conf".source = dotfiles/hyprpaper.conf;
-    ".config/waybar/config".source = dotfiles/waybar.conf;
-    ".config/waybar/style.css".source = dotfiles/waybar.style;
+    ".config/waybar/config".source = if isLaptop then dotfiles/laptop/waybar.conf else dotfiles/waybar.conf;
+    ".config/waybar/style.css".source = if isLaptop then dotfiles/laptop/waybar.style else dotfiles/waybar.style;
   };
 
   home.sessionVariables = {

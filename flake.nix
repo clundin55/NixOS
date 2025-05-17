@@ -15,13 +15,30 @@
           system = "x86_64-linux";
           modules = [
             ./configuration.nix
-            ./systems/desktop.nix
-            ./hardware-configuration.nix
+            ./systems/desktop/desktop.nix
+            ./systems/desktop/hardware-configuration.nix
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.users.carl = import ./home-manager/home.nix;
+            }
+          ];
+        };
+        freia = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./configuration.nix
+            ./systems/laptop/laptop.nix
+            ./systems/laptop/hardware-configuration.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.carl = import ./home-manager/home.nix;
+              home-manager.extraSpecialArgs = {
+                isLaptop = true;
+              };
             }
           ];
         };

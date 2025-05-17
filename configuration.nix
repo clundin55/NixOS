@@ -1,10 +1,6 @@
 { config, pkgs, ... }:
 
 {
-  imports = [
-    ./hardware-configuration.nix
-  ];
-
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
@@ -51,14 +47,34 @@
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
+    alacritty
     vim
     git
     wl-clipboard
     zip
     unzip
     mullvad
+    hyprpaper
+    ((pkgs.sddm-astronaut.override{ embeddedTheme = "post-apocalyptic_hacker"; }))
   ];
 
   services.mullvad-vpn.enable = true;
+
+  services.displayManager.sddm = {
+    enable = true;
+    theme = "sddm-astronaut-theme";
+    package = pkgs.kdePackages.sddm;
+    extraPackages = [pkgs.sddm-astronaut];
+    wayland.enable = true;
+  };
+
+  services.desktopManager.plasma6.enable = false;
+
+  programs.hyprland.enable = true;
+  programs.hyprland.withUWSM = true;
+  programs.hyprlock.enable = true;
+  programs.waybar.enable = true;
+  programs.firefox.enable = true;
+
   system.stateVersion = "24.11";
 }

@@ -2,6 +2,10 @@
 { config, pkgs, ... }: 
 
 {
+  imports = [
+    ./hardware-configuration.nix
+  ];
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 20;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -14,16 +18,6 @@
   services.playerctld.enable = true;
   services.tailscale.enable = true;
 
-  services.displayManager.sddm = {
-    enable = true;
-    theme = "sddm-astronaut-theme";
-    package = pkgs.kdePackages.sddm;
-    extraPackages = [pkgs.sddm-astronaut];
-    wayland.enable = true;
-  };
-
-  services.desktopManager.plasma6.enable = false;
-
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -32,11 +26,7 @@
     pulse.enable = true;
   };
 
-  programs.firefox.enable = true;
-
   environment.systemPackages = with pkgs; [
-    alacritty
-    hyprpaper
     nvtopPackages.amd
     rustup
     gdb
@@ -46,7 +36,6 @@
     ccls
     bear
     gnumake
-    ((pkgs.sddm-astronaut.override{ embeddedTheme = "post-apocalyptic_hacker"; }))
   ];
 
   programs.steam.enable = true;
@@ -54,9 +43,6 @@
   services.openssh.enable = true;
   services.openssh.settings.PasswordAuthentication = false;
 
-  # Use flatpak for:
-  # Spotify
-  # Discord
   services.flatpak.enable = true;
 
   services.ollama.enable = true;
@@ -75,10 +61,5 @@
       setSocketVariable = true;
     };
   };
-
-  programs.hyprland.enable = true;
-  programs.hyprland.withUWSM = true;
-  programs.hyprlock.enable = true;
-  programs.waybar.enable = true;
 }
 
