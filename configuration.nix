@@ -51,7 +51,6 @@
   environment.systemPackages = with pkgs; [
     alacritty
     vim
-    git
     wl-clipboard
     zip
     unzip

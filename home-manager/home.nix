@@ -38,16 +38,11 @@
     gnupg
     pinentry-tty
     tree
-    scmpuff
   ];
 
   home.file = {
     ".zshrc".source = dotfiles/zshrc;
-    ".inputrc".source = dotfiles/inputrc;
     ".config/nvim/init.lua".source = dotfiles/nvim.lua;
-    ".config/alacritty/alacritty.toml".source = dotfiles/alacritty.toml;
-    ".config/alacritty/darcula.toml".source = dotfiles/darcula.toml;
-    ".config/alacritty/paper.toml".source = dotfiles/paper.toml;
     ".config/hypr/hyprland.conf".source = dotfiles/hyprland.conf;
     ".config/hypr/hyprlock.conf".source = dotfiles/hyprlock.conf;
     ".config/hypr/hyprpaper.conf".source = dotfiles/hyprpaper.conf;
@@ -65,6 +60,11 @@
     enable = true;
     userName = "Carl Lundin";
     userEmail = "carllundin55@gmail.com";
+    difftastic = {
+      enable = true;
+      enableAsDifftool = true;
+      display = "inline";
+    };
     aliases = {
       "b" = "branch";
       "co" = "checkout";
@@ -78,6 +78,22 @@
       "st" = "stash";
       "ps" = "push";
     };
+    ignores = [
+      "*.swp"
+    ];
+    extraConfig = {
+      url = { 
+        "git@github.com" = {
+          insteadOf = "github";
+        };
+      };
+    };
+  };
+
+  programs.scmpuff = {
+    enable = true;
+    enableAliases = true;
+    enableZshIntegration = true;
   };
 
   programs.tmux = {
@@ -135,7 +151,49 @@
     enable = true;
     defaultCacheTtl = 1800;
     enableSshSupport = true;
-    pinentryPackage = pkgs.pinentry-tty;
+    pinentry.package = pkgs.pinentry-tty;
+  };
+
+  programs.alacritty = {
+    enable = true;
+    settings = {
+        font.size = 12.0;
+        font.normal = {
+          family = "FiraCode Nerd Font";
+          style = "Regular";
+        };
+
+        selection.save_to_clipboard = true;
+
+        window = {
+          decorations = "Full";
+          dynamic_title = true;
+          opacity = 0.8;
+          startup_mode = "Windowed";
+          title = "Alacritty";
+          option_as_alt = "OnlyLeft";
+        };
+
+        window.padding = {
+          x = 16;
+          y = 16;
+        };
+    };
+    theme =  "nord";
+  };
+
+  programs.readline = {
+    enable = true;
+    extraConfig = ''
+      set editing-mode vi
+      set keymap vi
+      set bell-style none
+      set blink-matching-paren on
+      set colored-stats on
+      set completion-ignore-case on
+      set completion-map-case on
+      set completion-map-case on
+    '';
   };
 
   programs.home-manager.enable = true;
