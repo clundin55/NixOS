@@ -58,6 +58,7 @@
     hyprpaper
     ((pkgs.sddm-astronaut.override{ embeddedTheme = "post-apocalyptic_hacker"; }))
   ];
+  environment.pathsToLink = [ "/share/zsh" ];
 
   services.mullvad-vpn.enable = true;
 

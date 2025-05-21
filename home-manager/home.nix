@@ -9,6 +9,54 @@
     enable = true;
     enableCompletion = true;
     autosuggestion.enable = true;
+    defaultKeymap = "viins";
+    syntaxHighlighting.enable = true;
+    initContent = ''
+      randir()
+      {
+        TMP_DIR=$(mktemp -d)
+        pushd $TMP_DIR
+      }
+      tmks() {
+        tmux kill-session -t $(tmux ls | fzf | cut -d' ' -f 1)
+      }
+      tma() {
+        tmux a -t $(tmux ls | fzf | cut -d' ' -f 1)
+      }
+      function rndd() {
+          DIR=$(mktemp -d)
+          pushd $DIR
+      }
+    '';
+    history = {
+      append = true;
+      expireDuplicatesFirst = true;
+      extended = true;
+      findNoDups = true;
+      ignoreAllDups = true;
+      ignoreDups = true;
+      save = 10000;
+      size = 10000;
+      share = true;
+    };
+    shellAliases = {
+      rzsh = "source ~/.zshrc";
+      gr = "git r -v";
+      grs = "git rs";
+      grsh = "git rs --hard";
+      gb = "git b";
+      gco = "git co";
+      gc = "git c";
+      gd = "git d";
+      gsw = "git sw";
+      gl = "git l";
+      gst = "git st";
+      gps = "git ps";
+      gpl = "git pull --rebase";
+      gpsf = "git ps --force-with-lease";
+      gf = "git fetch";
+      grb = "git rebase";
+    };
     plugins = [
       {
         name = "zsh-autosuggestions";
@@ -41,7 +89,6 @@
   ];
 
   home.file = {
-    ".zshrc".source = dotfiles/zshrc;
     ".config/nvim/init.lua".source = dotfiles/nvim.lua;
     ".config/hypr/hyprland.conf".source = dotfiles/hyprland.conf;
     ".config/hypr/hyprlock.conf".source = dotfiles/hyprlock.conf;
@@ -53,7 +100,6 @@
   home.sessionVariables = {
     USING_HOME_MANAGER = "true";
     EDITOR = "nvim";
-    GIT_EXTERNAL_DIFF = "difft";
   };
 
   programs.git = {
