@@ -92,7 +92,6 @@
     ".config/nvim/init.lua".source = dotfiles/nvim.lua;
     ".config/hypr/hyprland.conf".source = dotfiles/hyprland.conf;
     ".config/hypr/hyprlock.conf".source = dotfiles/hyprlock.conf;
-    ".config/hypr/hyprpaper.conf".source = dotfiles/hyprpaper.conf;
     ".config/waybar/config".source = if isLaptop then dotfiles/laptop/waybar.conf else dotfiles/waybar.conf;
     ".config/waybar/style.css".source = if isLaptop then dotfiles/laptop/waybar.style else dotfiles/waybar.style;
   };
@@ -191,6 +190,14 @@
       set -g set-clipboard on 
       set-option -g allow-rename off
     '';
+  };
+
+  services.hyprpaper = {
+    enable = true;
+    settings = {
+      preload = [ "~/Pictures/wallpaper.jpg" ];
+      wallpaper = [ ", ~/Pictures/wallpaper.jpg" ];
+    };
   };
 
   services.gpg-agent = {
