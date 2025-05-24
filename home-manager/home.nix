@@ -51,6 +51,7 @@
       gsw = "git sw";
       gl = "git l";
       gst = "git st";
+      gsh = "git show";
       gps = "git ps";
       gpl = "git pull --rebase";
       gpsf = "git ps --force-with-lease";
