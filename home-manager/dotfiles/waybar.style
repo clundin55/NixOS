@@ -70,6 +70,7 @@
 #disk,
 #pulseaudio,
 #custom-lock,
+#custom-gpu,
 #network,
 #memory,
 #language,
