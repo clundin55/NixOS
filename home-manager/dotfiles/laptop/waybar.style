@@ -59,18 +59,26 @@
   border-radius: 1rem;
 }
 
+#cpu,
 #custom-music,
 #tray,
 #backlight,
 #clock,
 #battery,
+#disk,
 #pulseaudio,
 #custom-lock,
+#custom-gpu,
+#custom-music,
+#custom-weather,
 #network,
+#memory,
 #language,
 #custom-power {
   background-color: @surface0;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
+  margin-left: 10px;
+  border-radius: 1rem;
 }
 
 #network {
