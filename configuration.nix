@@ -56,6 +56,9 @@
     unzip
     mullvad
     hyprpaper
+    yazi
+    yt-dlp
+    zathura
     ((pkgs.sddm-astronaut.override{ embeddedTheme = "post-apocalyptic_hacker"; }))
   ];
   environment.pathsToLink = [ "/share/zsh" ];
