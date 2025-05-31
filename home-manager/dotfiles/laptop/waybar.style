@@ -65,6 +65,7 @@
 #backlight,
 #clock,
 #battery,
+#bluetooth,
 #disk,
 #pulseaudio,
 #custom-lock,
