@@ -28,7 +28,7 @@
 * {
     border: none;
     font-family: Nerd Fonts;
-    font-size: 10px;
+    font-size: 8;
 }
 
 #waybar {
@@ -71,14 +71,15 @@
 #custom-gpu,
 #custom-music,
 #custom-weather,
+#custom-vpn,
 #network,
 #memory,
 #language,
 #custom-power {
   background-color: @surface0;
   padding: 0.5rem 1rem;
-  margin: 5px;
-  border-radius: 1rem;
+  margin: 3px;
+  border-radius: 0.5rem;
 }
 
 #network {

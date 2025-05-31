@@ -50,6 +50,7 @@
 
   environment.systemPackages = with pkgs; [
     alacritty
+    bash
     vim
     wl-clipboard
     zip
@@ -60,7 +61,26 @@
     yt-dlp
     zathura
     ((pkgs.sddm-astronaut.override{ embeddedTheme = "post-apocalyptic_hacker"; }))
-  ];
+
+    ((pkgs.writeScriptBin "vpn-status.sh" ''
+    #!${pkgs.bash}/bin/bash
+
+    set -eu
+    STATUS=$(mullvad status -j | jq '.state' -r)
+
+    if [[ "''${STATUS}" == "connected" ]]; then
+        echo "🔒 $(mullvad status -j | jq '.details.location.city' -r)"
+    else
+        echo "🔓"
+    fi
+    ''))
+    ((pkgs.writeScriptBin "weather.sh" ''
+    #!${pkgs.bash}/bin/bash
+
+    set -eu
+    curl -s 'wttr.in/North+Bend+WA?format=3' | sed 's/+/ /g'
+    ''))
+      ];
   environment.pathsToLink = [ "/share/zsh" ];
 
   services.mullvad-vpn.enable = true;
@@ -76,7 +96,6 @@
   services.desktopManager.plasma6.enable = false;
 
   programs.hyprland.enable = true;
-  programs.hyprland.withUWSM = true;
   programs.hyprlock.enable = true;
   programs.waybar.enable = true;
   programs.firefox.enable = true;
