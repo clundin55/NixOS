@@ -78,9 +78,10 @@
     #!${pkgs.bash}/bin/bash
 
     set -eu
-    curl -s 'wttr.in/North+Bend+WA?format=3' | sed 's/+/ /g'
+    curl -s 'wttr.in/{North+Bend+WA,Stockholm}?format=3' | sed 's/+/ /g' | tr '\n' ' '
+
     ''))
-      ];
+  ];
   environment.pathsToLink = [ "/share/zsh" ];
 
   services.mullvad-vpn.enable = true;

@@ -40,6 +40,7 @@
 
   environment.systemPackages = with pkgs; [
     clang
+    rustup
     fwupd
     brightnessctl
     mpv
