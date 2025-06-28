@@ -33,6 +33,7 @@
     clang
     go
     gopls
+    gemini-cli
     ccls
     bear
     gnumake
