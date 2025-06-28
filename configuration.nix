@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, stock-ticker, ... }:
 
 {
   nix.settings.experimental-features = [
@@ -60,6 +60,8 @@
     yazi
     yt-dlp
     zathura
+    pass
+    stock-ticker
     ((pkgs.sddm-astronaut.override{ embeddedTheme = "post-apocalyptic_hacker"; }))
 
     ((pkgs.writeScriptBin "vpn-status.sh" ''
@@ -80,6 +82,13 @@
     set -eu
     curl -s 'wttr.in/{North+Bend+WA,Stockholm}?format=3' | sed 's/+/ /g' | tr '\n' ' '
 
+    ''))
+    ((pkgs.writeScriptBin "stock-price.sh" ''
+    #!${pkgs.bash}/bin/bash
+
+    set -eu
+    export PMP_KEY=$(pass show Programming/pmp-key)
+    stock-ticker --tickers GOOGL
     ''))
   ];
   environment.pathsToLink = [ "/share/zsh" ];

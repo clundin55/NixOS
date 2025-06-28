@@ -5,14 +5,18 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    stock-ticker.url = "github:clundin55/stock-ticker";
   };
 
   outputs =
-    inputs@{ nixpkgs, home-manager, ... }:
+    inputs@{ nixpkgs, home-manager, stock-ticker, ... }:
     {
       nixosConfigurations = {
         loki = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
+          specialArgs = {
+            stock-ticker = stock-ticker.packages."x86_64-linux".default;
+          };
           modules = [
             ./configuration.nix
             ./systems/desktop/desktop.nix
@@ -30,6 +34,9 @@
         };
         freia = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
+          specialArgs = {
+            stock-ticker = stock-ticker.packages."x86_64-linux".default;
+          };
           modules = [
             ./configuration.nix
             ./systems/laptop/laptop.nix
@@ -47,6 +54,9 @@
         };
         floki = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
+          specialArgs = {
+            stock-ticker = stock-ticker.packages."aarch64-linux".default;
+          };
           modules = [
             ./configuration.nix
             ./systems/rpi.nix
