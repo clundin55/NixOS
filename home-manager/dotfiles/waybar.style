@@ -29,7 +29,7 @@
 * {
     border: none;
     font-family: Nerd Fonts;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 #waybar {

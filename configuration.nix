@@ -88,7 +88,7 @@
 
     set -eu
     export PMP_KEY=$(pass show Programming/pmp-key)
-    stock-ticker --tickers GOOGL
+    stock-ticker --tickers GOOG
     ''))
   ];
   environment.pathsToLink = [ "/share/zsh" ];

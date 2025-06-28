@@ -134,11 +134,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1751124735,
-        "narHash": "sha256-hdK0+Hlx0YQx9gtsl+qKzTk5Ye4UEHM6J40fkq4T7Jc=",
+        "lastModified": 1751126118,
+        "narHash": "sha256-9i55w1ZFdU6108bk+5gSDStd9EcBqTqkGaFDUc14d4k=",
         "owner": "clundin55",
         "repo": "stock-ticker",
-        "rev": "a03979aa627baef7880b11c5b178709932edf8da",
+        "rev": "877643d2192b4b23eece5a821142e2a0077f435b",
         "type": "github"
       },
       "original": {
