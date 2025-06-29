@@ -80,7 +80,7 @@
     #!${pkgs.bash}/bin/bash
 
     set -eu
-    curl -s 'wttr.in/North+Bend+WA?format=3' | sed 's/+/ /g' | tr '\n' ' '
+    curl -s 'wttr.in/North+Bend+WA?format=3&u' | sed 's/+/ /g' | tr '\n' ' '
 
     ''))
     ((pkgs.writeScriptBin "stock-price.sh" ''
