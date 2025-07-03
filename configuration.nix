@@ -1,4 +1,4 @@
-{ config, pkgs, stock-ticker, ... }:
+{ config, pkgs, stock-ticker, agenix, ... }:
 
 {
   nix.settings.experimental-features = [
@@ -48,6 +48,15 @@
 
   nixpkgs.config.allowUnfree = true;
 
+  age.secrets = {
+    pmp_key = {
+      file = ./secrets/pmp_key.age;
+      mode = "400";
+      owner = "carl";
+      group = "users";
+    };
+  };
+
   environment.systemPackages = with pkgs; [
     alacritty
     bash
@@ -87,7 +96,7 @@
     #!${pkgs.bash}/bin/bash
 
     set -eu
-    export PMP_KEY=$(pass show Programming/pmp-key)
+    export PMP_KEY=$(cat "${config.age.secrets.pmp_key.path}")
     stock-ticker --tickers GOOG
     ''))
   ];

@@ -6,10 +6,11 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     stock-ticker.url = "github:clundin55/stock-ticker";
+    agenix.url = "github:ryantm/agenix";
   };
 
   outputs =
-    inputs@{ nixpkgs, home-manager, stock-ticker, ... }:
+    inputs@{ nixpkgs, home-manager, stock-ticker, agenix, ... }:
     {
       nixosConfigurations = {
         loki = nixpkgs.lib.nixosSystem {
@@ -22,6 +23,7 @@
             ./systems/desktop/desktop.nix
             ./systems/desktop/hardware-configuration.nix
             home-manager.nixosModules.home-manager
+            agenix.nixosModules.default
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
@@ -42,6 +44,7 @@
             ./systems/laptop/laptop.nix
             ./systems/laptop/hardware-configuration.nix
             home-manager.nixosModules.home-manager
+            agenix.nixosModules.default
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
@@ -60,6 +63,7 @@
           modules = [
             ./configuration.nix
             ./systems/rpi.nix
+            agenix.nixosModules.default
           ];
         };
       };
