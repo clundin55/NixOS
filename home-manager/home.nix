@@ -91,7 +91,8 @@
 
   home.file = {
     ".config/nvim/init.lua".source = dotfiles/nvim.lua;
-    ".config/hypr/hyprland.conf".source = dotfiles/hyprland.conf;
+    ".config/mako/config".source = dotfiles/mako;
+    ".config/niri/config.kdl".source = dotfiles/niri.kdl;
     ".config/hypr/hyprlock.conf".source = dotfiles/hyprlock.conf;
     ".config/waybar/config".source = if isLaptop then dotfiles/laptop/waybar.conf else dotfiles/waybar.conf;
     ".config/waybar/style.css".source = if isLaptop then dotfiles/laptop/waybar.style else dotfiles/waybar.style;
@@ -196,8 +197,8 @@
   services.hyprpaper = {
     enable = true;
     settings = {
-      preload = [ "~/Pictures/wallpaper.jpg" ];
-      wallpaper = [ ", ~/Pictures/wallpaper.jpg" ];
+      preload = [ "~/Pictures/wallpaper.png" ];
+      wallpaper = [ ", ~/Pictures/wallpaper.png" ];
     };
   };
 

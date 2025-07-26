@@ -65,12 +65,16 @@
     zip
     unzip
     mullvad
-    hyprpaper
     yazi
     yt-dlp
     zathura
+    hyprpaper
+    mako
+    libnotify
     pass
     stock-ticker
+    waybar
+    xwayland-satellite
     ((pkgs.sddm-astronaut.override{ embeddedTheme = "post-apocalyptic_hacker"; }))
 
     ((pkgs.writeScriptBin "vpn-status.sh" ''
@@ -114,9 +118,8 @@
 
   services.desktopManager.plasma6.enable = false;
 
-  programs.hyprland.enable = true;
+  programs.niri.enable = true;
   programs.hyprlock.enable = true;
-  programs.waybar.enable = true;
   programs.firefox.enable = true;
 
   system.stateVersion = "24.11";
