@@ -332,7 +332,7 @@ binds {
     Mod+Shift+D hotkey-overlay-title="Open Discord" { spawn "flatpak" "run" "com.discordapp.Discord"; }
     Mod+Shift+M hotkey-overlay-title="Open Spotify" { spawn "env" "DISPLAY=:0" "flatpak" "run" "com.spotify.Client"; }
     Mod+Shift+S hotkey-overlay-title="Open Steam" { spawn "steam"; }
-    Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
+    Super+Shift+Q hotkey-overlay-title="Lock the Screen: hyprlock" { spawn "hyprlock"; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument in the end.
@@ -348,6 +348,8 @@ binds {
     XF86AudioPause       allow-when-locked=true { spawn "playerctl" "play-pause"; }
     XF86AudioPlay        allow-when-locked=true { spawn "playerctl" "play-pause"; }
     XF86AudioPrev        allow-when-locked=true { spawn "playerctl" "previous"; }
+    XF86MonBrightnessUp        allow-when-locked=true { spawn "brightnessctl" "s" "10%+"; }
+    XF86MonBrightnessDown        allow-when-locked=true { spawn "brightnessctl" "s" "10-+"; }
 
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
     // You can also move the mouse into the top-left hot corner,
