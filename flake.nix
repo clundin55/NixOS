@@ -55,17 +55,26 @@
             }
           ];
         };
-        floki = nixpkgs.lib.nixosSystem {
+        rpi = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
           specialArgs = {
             stock-ticker = stock-ticker.packages."aarch64-linux".default;
           };
           modules = [
             ./configuration.nix
-            ./systems/rpi.nix
+            ./systems/rpi/rpi.nix
+            home-manager.nixosModules.home-manager
             agenix.nixosModules.default
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.carl = import ./home-manager/home.nix;
+              home-manager.extraSpecialArgs = {
+                isLaptop = true;
+              };
+            }
           ];
-        };
+       };
       };
     };
 }
