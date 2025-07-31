@@ -94,6 +94,7 @@
     ".config/mako/config".source = dotfiles/mako;
     ".config/niri/config.kdl".source = dotfiles/niri.kdl;
     ".config/hypr/hyprlock.conf".source = dotfiles/hyprlock.conf;
+    ".config/zellij/config.kd".source = dotfiles/zellij.kdl;
     ".config/waybar/config".source = if isLaptop then dotfiles/laptop/waybar.conf else dotfiles/waybar.conf;
     ".config/waybar/style.css".source = if isLaptop then dotfiles/laptop/waybar.style else dotfiles/waybar.style;
   };
