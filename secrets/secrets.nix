@@ -4,4 +4,5 @@ let
 in
 {
   "pmp_key.age".publicKeys = [ loki freia ];
+  "user_pass.age".publicKeys = [ loki freia ];
 }

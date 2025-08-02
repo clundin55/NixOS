@@ -37,6 +37,7 @@
     openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMPHPeLSIQgoO2MZCxAXoVxaaZVC0hp1oa81cFO3/zDf carl@nixos"
     ];
+    passwordFile = config.age.secrets.user_pass.path;
   };
 
   fonts.packages = [ pkgs.nerd-fonts.fira-code ];
@@ -49,6 +50,12 @@
   age.secrets = {
     pmp_key = {
       file = ./secrets/pmp_key.age;
+      mode = "400";
+      owner = "carl";
+      group = "users";
+    };
+    user_pass = {
+      file = ./secrets/user_pass.age;
       mode = "400";
       owner = "carl";
       group = "users";
