@@ -73,6 +73,8 @@
     stock-ticker
     waybar
     xwayland-satellite
+    zellij
+    jujutsu
     ((pkgs.sddm-astronaut.override{ embeddedTheme = "post-apocalyptic_hacker"; }))
 
     ((pkgs.writeScriptBin "vpn-status.sh" ''
