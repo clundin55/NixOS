@@ -1,5 +1,4 @@
 { config, pkgs, stock-ticker, agenix, ... }:
-
 {
   nix.settings.experimental-features = [
     "nix-command"
@@ -27,7 +26,6 @@
   users.defaultUserShell = pkgs.zsh;
   users.users.carl = {
     isNormalUser = true;
-    shell = pkgs.zsh;
     description = "Carl Lundin";
     extraGroups = [
       "networkmanager"
@@ -82,6 +80,14 @@
     xwayland-satellite
     zellij
     jujutsu
+    # Cool to trick to embed a rust binary in Nix.
+    # Can also do this with python, go, etc.
+    ((pkgs.writers.writeRustBin "rust-test" {} ''
+        fn main() {
+          println!("Hello world");
+        }
+      ''
+    ))
     ((pkgs.sddm-astronaut.override{ embeddedTheme = "post-apocalyptic_hacker"; }))
 
     ((pkgs.writeScriptBin "vpn-status.sh" ''

@@ -349,7 +349,7 @@ binds {
     XF86AudioPlay        allow-when-locked=true { spawn "playerctl" "play-pause"; }
     XF86AudioPrev        allow-when-locked=true { spawn "playerctl" "previous"; }
     XF86MonBrightnessUp        allow-when-locked=true { spawn "brightnessctl" "s" "10%+"; }
-    XF86MonBrightnessDown        allow-when-locked=true { spawn "brightnessctl" "s" "10-+"; }
+    XF86MonBrightnessDown        allow-when-locked=true { spawn "brightnessctl" "s" "10%-"; }
 
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
     // You can also move the mouse into the top-left hot corner,

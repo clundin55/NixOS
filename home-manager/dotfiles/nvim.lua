@@ -39,7 +39,7 @@ require("lazy").setup({
         {
           "folke/tokyonight.nvim",
           opts = {
-            transparent = true,
+            transparent = false,
             styles = {
               sidebars = "transparent",
               floats = "transparent",
@@ -82,7 +82,7 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 
-vim.cmd[[colorscheme tokyonight-night]]
+vim.cmd[[colorscheme nord]]
 
 vim.api.nvim_set_keymap('n', '<leader>o', ':NvimTreeToggle<cr>', {noremap=true})
 
