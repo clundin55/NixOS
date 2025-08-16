@@ -32,6 +32,9 @@
   services.tailscale.enable = true;
   services.fwupd.enable = true;
 
+  programs.steam.enable = true;
+  hardware.steam-hardware.enable = true;
+
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
