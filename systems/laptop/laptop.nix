@@ -49,6 +49,7 @@
     fwupd
     brightnessctl
     mpv
+    moonlight-qt
   ];
 
   services.openssh.enable = true;
