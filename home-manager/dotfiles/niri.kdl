@@ -332,6 +332,7 @@ binds {
     Mod+Shift+D hotkey-overlay-title="Open Discord" { spawn "env" "DISPLAY=:0" "flatpak" "run" "com.discordapp.Discord"; }
     Mod+Shift+M hotkey-overlay-title="Open Spotify" { spawn "env" "DISPLAY=:0" "flatpak" "run" "com.spotify.Client"; }
     Mod+Shift+S hotkey-overlay-title="Open Steam" { spawn "env" "DISPLAY=:0" "steam"; }
+    Mod+Shift+G hotkey-overlay-title="Open Moonlight" { spawn "moonlight"; }
     Super+Shift+Q hotkey-overlay-title="Lock the Screen: hyprlock" { spawn "hyprlock"; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
