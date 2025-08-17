@@ -14,6 +14,13 @@
   networking.hostName = "loki";
   networking.networkmanager.enable = true;
 
+  services.sunshine = {
+    enable = true;
+    autoStart = true;
+    capSysAdmin = true;
+    openFirewall = true;
+  };
+
   services.xserver.enable = false;
   services.playerctld.enable = true;
   services.tailscale.enable = true;
@@ -39,11 +46,15 @@
     gnumake
   ];
 
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "carl";
   programs.steam.enable = true;
   hardware.steam-hardware.enable = true;
 
   services.openssh.enable = true;
   services.openssh.settings.PasswordAuthentication = false;
+  services.openssh.settings.X11Forwarding = true;
+  services.openssh.settings.GatewayPorts = "yes";
 
   services.flatpak.enable = true;
 

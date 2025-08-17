@@ -127,6 +127,8 @@
     package = pkgs.kdePackages.sddm;
     extraPackages = [pkgs.sddm-astronaut];
     wayland.enable = true;
+    autoLogin.enable = true;
+    autoLogin.user = "carl";
   };
 
   services.desktopManager.plasma6.enable = false;
