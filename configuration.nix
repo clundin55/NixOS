@@ -78,6 +78,7 @@
     stock-ticker
     waybar
     xwayland-satellite
+    waypipe
     zellij
     jujutsu
     # Cool to trick to embed a rust binary in Nix.
