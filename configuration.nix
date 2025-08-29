@@ -90,7 +90,6 @@
       ''
     ))
     ((pkgs.sddm-astronaut.override{ embeddedTheme = "post-apocalyptic_hacker"; }))
-
     ((pkgs.writeScriptBin "vpn-status.sh" ''
     #!${pkgs.bash}/bin/bash
 
