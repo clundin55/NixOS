@@ -45,9 +45,7 @@
       grs = "git rs";
       grsh = "git rs --hard";
       gb = "git b";
-      gco = "git co";
       gc = "git c";
-      gd = "git d";
       gsw = "git sw";
       gl = "git l";
       gst = "git st";
