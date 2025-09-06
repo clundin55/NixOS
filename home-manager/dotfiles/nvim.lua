@@ -17,6 +17,7 @@ vim.opt.scrolloff = 8
 vim.opt.hidden = true
 vim.opt.colorcolumn="120"
 vim.opt.swapfile = false
+vim.o.completeopt = 'menuone,noselect'
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -39,16 +40,19 @@ require("lazy").setup({
         {
           "folke/tokyonight.nvim",
           opts = {
-            transparent = false,
+            transparent = true,
             styles = {
               sidebars = "transparent",
               floats = "transparent",
             },
           },
         },
-        "shaunsingh/nord.nvim",
+        {
+          'mrcjkb/rustaceanvim',
+          version = '^6',
+          lazy = false,
+        },
         "nvim-lua/plenary.nvim",
-        "neovim/nvim-lspconfig",
         "tpope/vim-fugitive",
         "tpope/vim-obsession",
         "voldikss/vim-floaterm",
@@ -75,20 +79,17 @@ require'nvim-tree'.setup {
 
 require'nvim-treesitter.configs'.setup {
   ensure_installed = { "rust", "markdown", "python", "c", "lua", "nix" },
-  sync_install = false,
+  sync_install = true,
   highlight = {
     enable = true,
     additional_vim_regex_highlighting = false,
   },
 }
 
-vim.cmd[[colorscheme nord]]
-
+vim.cmd[[colorscheme tokyonight]]
 vim.api.nvim_set_keymap('n', '<leader>o', ':NvimTreeToggle<cr>', {noremap=true})
-
 vim.api.nvim_set_keymap('n', '<leader>tc', ':FloatermNew<cr>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>tt', '<C-\\><c-n>:FloatermToggle<cr>', {noremap=true})
-
 vim.api.nvim_set_keymap('n', '<leader>ff', ':Telescope find_files<cr>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>fg', ':Telescope live_grep<cr>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>fgr', [[:lua require'telescope.builtin'.lsp_references()<cr>]], {noremap=true})
@@ -111,23 +112,9 @@ vim.api.nvim_set_keymap('n', '<leader>ve', ':e ~/.config/nvim/init.lua<cr>', {no
 vim.api.nvim_set_keymap('n', '<leader>vs', ':source ~/.config/nvim/init.lua<cr>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>vz', ':e ~/.zshrc<cr>', {noremap=true})
 
-local nvim_lsp = require('lspconfig')
-
-local servers = { 'gopls', 'ccls', 'rust_analyzer' }
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
-    on_attach = on_attach,
-    flags = {
-      debounce_text_changes = 150,
-    }
-  }
-end
-
-vim.lsp.inlay_hint.enable(true)
-
 vim.api.nvim_set_keymap('n', '<leader>gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>gd', '<cmd>lua vim.lsp.buf.type_definition()<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>K', '<cmd>lua vim.lsp.buf.hover()<CR>', {noremap=true})
+-- vim.api.nvim_set_keymap('n', '<leader>K', '<cmd>lua vim.lsp.buf.hover()<CR>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>gq', '<cmd>lua vim.lsp.buf.implementation()<CR>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader><C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>wa', '<cmd>lua vim.buf.add_workspace_folder()<CR>', {noremap=true})
@@ -143,7 +130,25 @@ vim.api.nvim_set_keymap('n', '<leader>]d', '<cmd>lua vim.diagnostic.goto_next()<
 vim.api.nvim_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.set_loclist()<CR>', {noremap=true})
 vim.api.nvim_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', {noremap=true})
 
-vim.o.completeopt = 'menuone,noselect'
+local bufnr = vim.api.nvim_get_current_buf()
+
+
+-- rustaceanvim config
+-- vim.g.rustaceanvim.tools.test_executor = 'background'
+
+vim.keymap.set(
+  "n", 
+  "K",  -- Override Neovim's built-in hover keymap with rustaceanvim's hover actions
+  function()
+    vim.cmd.RustLsp({'hover', 'actions'})
+  end,
+  { silent = true, buffer = bufnr }
+)
+
+vim.api.nvim_set_keymap('n', '<leader>rlt', '<cmd> RustLsp testables<CR>', {noremap=true})
+vim.api.nvim_set_keymap('n', '<leader>rle', '<cmd> RustLsp explainError<CR>', {noremap=true})
+vim.api.nvim_set_keymap('n', '<leader>rld', '<cmd> RustLsp renderDiagnostic<CR>', {noremap=true})
+vim.api.nvim_set_keymap('n', '<leader>rlrd', '<cmd> RustLsp relatedDiagnostics<CR>', {noremap=true})
 
 local cmp = require 'cmp'
 cmp.setup {
