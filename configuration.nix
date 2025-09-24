@@ -78,6 +78,7 @@
     stock-ticker
     waybar
     xwayland-satellite
+    google-chrome
     waypipe
     zellij
     jujutsu
