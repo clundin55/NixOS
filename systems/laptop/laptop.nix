@@ -20,6 +20,11 @@
   boot.kernelParams = ["resume_offset=32563200"];
   boot.resumeDevice = "/dev/disk/by-uuid/a4be4019-5beb-4f5f-9d16-341c6bfbdf2f";
 
+  services.logind.settings.Login.HandleLidSwitch = "suspend-then-hibernate";
+  systemd.sleep.extraConfig = ''
+    HibernateDelaySec=60m
+  '';
+
   services.hardware.bolt.enable = true;
 
   powerManagement.enable = true;
