@@ -1,4 +1,10 @@
-{ config, pkgs, stock-ticker, agenix, ... }:
+{
+  config,
+  pkgs,
+  stock-ticker,
+  agenix,
+  ...
+}:
 {
   nix.settings.experimental-features = [
     "nix-command"
@@ -33,7 +39,7 @@
       "docker"
     ];
     openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMPHPeLSIQgoO2MZCxAXoVxaaZVC0hp1oa81cFO3/zDf carl@nixos"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMPHPeLSIQgoO2MZCxAXoVxaaZVC0hp1oa81cFO3/zDf carl@nixos"
     ];
     passwordFile = config.age.secrets.user_pass.path;
   };
@@ -44,13 +50,13 @@
   programs.neovim.defaultEditor = true;
 
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.overlays =[
-            (self: super: {
-               mpv = super.mpv.override {
-               scripts = [ self.mpvScripts.mpris ];
-             };
-            })
-          ];
+  nixpkgs.overlays = [
+    (self: super: {
+      mpv = super.mpv.override {
+        scripts = [ self.mpvScripts.mpris ];
+      };
+    })
+  ];
 
   age.secrets = {
     pmp_key = {
@@ -96,39 +102,46 @@
     mpvScripts.mpris
     # Cool to trick to embed a rust binary in Nix.
     # Can also do this with python, go, etc.
-    ((pkgs.writers.writeRustBin "rust-test" {} ''
+    (
+      (pkgs.writers.writeRustBin "rust-test" { } ''
         fn main() {
           println!("Hello world");
         }
-      ''
-    ))
-    ((pkgs.sddm-astronaut.override{ embeddedTheme = "post-apocalyptic_hacker"; }))
-    ((pkgs.writeScriptBin "vpn-status.sh" ''
-    #!${pkgs.bash}/bin/bash
+      '')
+    )
+    ((pkgs.sddm-astronaut.override { embeddedTheme = "post-apocalyptic_hacker"; }))
+    (
+      (pkgs.writeScriptBin "vpn-status.sh" ''
+        #!${pkgs.bash}/bin/bash
 
-    set -eu
-    STATUS=$(mullvad status -j | jq '.state' -r)
+        set -eu
+        STATUS=$(mullvad status -j | jq '.state' -r)
 
-    if [[ "''${STATUS}" == "connected" ]]; then
-        echo "🔒 $(mullvad status -j | jq '.details.location.city' -r)"
-    else
-        echo "🔓"
-    fi
-    ''))
-    ((pkgs.writeScriptBin "weather.sh" ''
-    #!${pkgs.bash}/bin/bash
+        if [[ "''${STATUS}" == "connected" ]]; then
+            echo "🔒 $(mullvad status -j | jq '.details.location.city' -r)"
+        else
+            echo "🔓"
+        fi
+      '')
+    )
+    (
+      (pkgs.writeScriptBin "weather.sh" ''
+        #!${pkgs.bash}/bin/bash
 
-    set -eu
-    curl -s 'wttr.in/North+Bend+WA?format=3&u' | sed 's/+/ /g' | tr '\n' ' '
+        set -eu
+        curl -s 'wttr.in/North+Bend+WA?format=3&u' | sed 's/+/ /g' | tr '\n' ' '
 
-    ''))
-    ((pkgs.writeScriptBin "stock-price.sh" ''
-    #!${pkgs.bash}/bin/bash
+      '')
+    )
+    (
+      (pkgs.writeScriptBin "stock-price.sh" ''
+        #!${pkgs.bash}/bin/bash
 
-    set -eu
-    export PMP_KEY=$(cat "${config.age.secrets.pmp_key.path}")
-    stock-ticker --tickers GOOG
-    ''))
+        set -eu
+        export PMP_KEY=$(cat "${config.age.secrets.pmp_key.path}")
+        stock-ticker --tickers GOOG
+      '')
+    )
   ];
   environment.pathsToLink = [ "/share/zsh" ];
 
@@ -138,7 +151,7 @@
     enable = true;
     theme = "sddm-astronaut-theme";
     package = pkgs.kdePackages.sddm;
-    extraPackages = [pkgs.sddm-astronaut];
+    extraPackages = [ pkgs.sddm-astronaut ];
     wayland.enable = true;
   };
 

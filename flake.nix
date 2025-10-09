@@ -10,7 +10,13 @@
   };
 
   outputs =
-    inputs@{ nixpkgs, home-manager, stock-ticker, agenix, ... }:
+    inputs@{
+      nixpkgs,
+      home-manager,
+      stock-ticker,
+      agenix,
+      ...
+    }:
     {
       nixosConfigurations = {
         loki = nixpkgs.lib.nixosSystem {
@@ -74,7 +80,7 @@
               };
             }
           ];
-       };
+        };
       };
     };
 }

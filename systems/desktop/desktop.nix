@@ -1,5 +1,5 @@
 # This contains configuration settings for beefier / non-battery systems.
-{ config, pkgs, ... }: 
+{ config, pkgs, ... }:
 
 {
   imports = [
@@ -58,4 +58,3 @@
     };
   };
 }
-

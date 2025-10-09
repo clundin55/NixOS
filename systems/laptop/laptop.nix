@@ -1,5 +1,5 @@
 # This contains configuration settings for laptop systems.
-{ config, pkgs, ... }: 
+{ config, pkgs, ... }:
 
 {
   imports = [
@@ -17,7 +17,7 @@
   boot.loader.systemd-boot.configurationLimit = 20;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelParams = ["resume_offset=32563200"];
+  boot.kernelParams = [ "resume_offset=32563200" ];
   boot.resumeDevice = "/dev/disk/by-uuid/a4be4019-5beb-4f5f-9d16-341c6bfbdf2f";
 
   services.logind.settings.Login.HandleLidSwitch = "suspend-then-hibernate";
@@ -55,4 +55,3 @@
       KEYBOARD_KEY_3a=esc
   '';
 }
-

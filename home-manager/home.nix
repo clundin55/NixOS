@@ -1,4 +1,8 @@
-{ pkgs, isLaptop ? false, ... }:
+{
+  pkgs,
+  isLaptop ? false,
+  ...
+}:
 
 {
   home.username = "carl";
@@ -86,6 +90,7 @@
     pinentry-tty
     tree
     nixfmt-rfc-style
+    nixfmt-tree
   ];
 
   home.file = {
@@ -94,8 +99,10 @@
     ".config/niri/config.kdl".source = dotfiles/niri.kdl;
     ".config/hypr/hyprlock.conf".source = dotfiles/hyprlock.conf;
     ".config/zellij/config.kd".source = dotfiles/zellij.kdl;
-    ".config/waybar/config".source = if isLaptop then dotfiles/laptop/waybar.conf else dotfiles/waybar.conf;
-    ".config/waybar/style.css".source = if isLaptop then dotfiles/laptop/waybar.style else dotfiles/waybar.style;
+    ".config/waybar/config".source =
+      if isLaptop then dotfiles/laptop/waybar.conf else dotfiles/waybar.conf;
+    ".config/waybar/style.css".source =
+      if isLaptop then dotfiles/laptop/waybar.style else dotfiles/waybar.style;
   };
 
   home.sessionVariables = {
@@ -129,7 +136,7 @@
       "*.swp"
     ];
     extraConfig = {
-      url = { 
+      url = {
         "git@github.com" = {
           insteadOf = "github";
         };
@@ -212,29 +219,29 @@
   programs.alacritty = {
     enable = true;
     settings = {
-        font.size = 12.0;
-        font.normal = {
-          family = "FiraCode Nerd Font";
-          style = "Regular";
-        };
+      font.size = 12.0;
+      font.normal = {
+        family = "FiraCode Nerd Font";
+        style = "Regular";
+      };
 
-        selection.save_to_clipboard = true;
+      selection.save_to_clipboard = true;
 
-        window = {
-          decorations = "Full";
-          dynamic_title = true;
-          opacity = 1.0;
-          startup_mode = "Windowed";
-          title = "Alacritty";
-          option_as_alt = "OnlyLeft";
-        };
+      window = {
+        decorations = "Full";
+        dynamic_title = true;
+        opacity = 1.0;
+        startup_mode = "Windowed";
+        title = "Alacritty";
+        option_as_alt = "OnlyLeft";
+      };
 
-        window.padding = {
-          x = 16;
-          y = 16;
-        };
+      window.padding = {
+        x = 16;
+        y = 16;
+      };
     };
-    theme =  "nord";
+    theme = "nord";
   };
 
   programs.readline = {
