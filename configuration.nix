@@ -44,6 +44,13 @@
   programs.neovim.defaultEditor = true;
 
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.overlays =[
+            (self: super: {
+               mpv = super.mpv.override {
+               scripts = [ self.mpvScripts.mpris ];
+             };
+            })
+          ];
 
   age.secrets = {
     pmp_key = {
@@ -86,6 +93,7 @@
     clang
     rustup
     mpv
+    mpvScripts.mpris
     # Cool to trick to embed a rust binary in Nix.
     # Can also do this with python, go, etc.
     ((pkgs.writers.writeRustBin "rust-test" {} ''

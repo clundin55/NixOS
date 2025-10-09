@@ -85,6 +85,7 @@
     gnupg
     pinentry-tty
     tree
+    nixfmt-rfc-style
   ];
 
   home.file = {
