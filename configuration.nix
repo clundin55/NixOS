@@ -156,5 +156,7 @@
   hardware.steam-hardware.enable = true;
   services.flatpak.enable = true;
 
+  services.openssh.enable = true;
+
   system.stateVersion = "24.11";
 }
