@@ -79,9 +79,13 @@
     waybar
     xwayland-satellite
     google-chrome
+    gemini-cli
     waypipe
     zellij
     jujutsu
+    clang
+    rustup
+    mpv
     # Cool to trick to embed a rust binary in Nix.
     # Can also do this with python, go, etc.
     ((pkgs.writers.writeRustBin "rust-test" {} ''
@@ -135,6 +139,22 @@
   programs.niri.enable = true;
   programs.hyprlock.enable = true;
   programs.firefox.enable = true;
+
+  services.xserver.enable = false;
+  services.playerctld.enable = true;
+  services.tailscale.enable = true;
+
+  services.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+  };
+
+  programs.steam.enable = true;
+  hardware.steam-hardware.enable = true;
+  services.flatpak.enable = true;
 
   system.stateVersion = "24.11";
 }

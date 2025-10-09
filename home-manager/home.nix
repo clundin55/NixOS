@@ -42,8 +42,8 @@
     shellAliases = {
       rzsh = "source ~/.zshrc";
       gr = "git r -v";
-      grs = "git rs";
-      grsh = "git rs --hard";
+      grs = "git reset";
+      grsh = "git reset --hard";
       gb = "git b";
       gc = "git c";
       gsw = "git sw";
@@ -196,8 +196,8 @@
   services.hyprpaper = {
     enable = true;
     settings = {
-      preload = [ "~/Pictures/wallpaper.png" ];
-      wallpaper = [ ", ~/Pictures/wallpaper.png" ];
+      preload = [ "~/Pictures/mount.jpg" ];
+      wallpaper = [ ", ~/Pictures/mount.jpg" ];
     };
   };
 
@@ -222,7 +222,7 @@
         window = {
           decorations = "Full";
           dynamic_title = true;
-          opacity = 0.8;
+          opacity = 1.0;
           startup_mode = "Windowed";
           title = "Alacritty";
           option_as_alt = "OnlyLeft";

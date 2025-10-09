@@ -21,42 +21,20 @@
     openFirewall = true;
   };
 
-  services.xserver.enable = false;
-  services.playerctld.enable = true;
-  services.tailscale.enable = true;
-
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
-  };
-
   environment.systemPackages = with pkgs; [
     nvtopPackages.amd
-    rustup
     gdb
     clang
     go
     gopls
-    gemini-cli
     ccls
-    bear
     gnumake
   ];
-
-  services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user = "carl";
-  programs.steam.enable = true;
-  hardware.steam-hardware.enable = true;
 
   services.openssh.enable = true;
   services.openssh.settings.PasswordAuthentication = false;
   services.openssh.settings.X11Forwarding = true;
   services.openssh.settings.GatewayPorts = "yes";
-
-  services.flatpak.enable = true;
 
   nixpkgs.config.rocmSupport = true;
   services.ollama = {

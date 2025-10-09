@@ -39,35 +39,13 @@
   networking.hostName = "freia";
   networking.networkmanager.enable = true;
 
-  services.xserver.enable = false;
-  services.playerctld.enable = true;
-  services.tailscale.enable = true;
   services.fwupd.enable = true;
 
-  programs.steam.enable = true;
-  hardware.steam-hardware.enable = true;
-
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
-  };
-
   environment.systemPackages = with pkgs; [
-    clang
-    rustup
     fwupd
     brightnessctl
-    mpv
     moonlight-qt
   ];
-
-  services.openssh.enable = true;
-  services.openssh.settings.PasswordAuthentication = false;
-
-  services.flatpak.enable = true;
 
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
