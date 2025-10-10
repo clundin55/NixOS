@@ -61,16 +61,14 @@
             }
           ];
         };
-        rpi = nixpkgs.lib.nixosSystem {
+        kyle-rpi = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
           specialArgs = {
-            stock-ticker = stock-ticker.packages."aarch64-linux".default;
+            hostname = "kyle-rpi";
           };
           modules = [
-            ./configuration.nix
             ./systems/rpi/rpi.nix
             home-manager.nixosModules.home-manager
-            agenix.nixosModules.default
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
