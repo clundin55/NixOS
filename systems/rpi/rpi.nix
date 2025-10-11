@@ -1,4 +1,9 @@
-{ config, pkgs, hostname, ... }: 
+{
+  config,
+  pkgs,
+  hostname,
+  ...
+}:
 {
   nix.settings.experimental-features = [
     "nix-command"
@@ -9,15 +14,15 @@
     ./hardware-configuration.nix
   ];
 
-  systemd.user.services.jellyfin = {
+  systemd.services.jellyfin = {
     enable = true;
-    description = "Jellyfin reverse proxy";
+    description = "Jellyfin ssh gateway";
     after = [ "sshd.target" ];
     wantedBy = [ "multi-user.target" ];
 
     serviceConfig = {
       Type = "simple";
-      ExecStart = "ssh carl@100.113.49.85 -L 8096:127.0.0.1:8096 -G -N";
+      ExecStart = "${pkgs.openssh}/bin/ssh -v jellyfin-proxy";
       Restart = "on-failure";
       RestartSec = "15s";
     };
@@ -54,6 +59,15 @@
 
   services.openssh.enable = true;
   services.openssh.settings.PasswordAuthentication = false;
+  services.openssh.settings.GatewayPorts = "yes";
+
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [
+      22
+      8096
+    ];
+  };
 
   nix.settings.trusted-users = [ "carl" ];
 
@@ -67,8 +81,8 @@
       "wheel"
     ];
     openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMPHPeLSIQgoO2MZCxAXoVxaaZVC0hp1oa81cFO3/zDf carl@nixos"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIED50DA1QiJerIlFy8Ea04dm1AOWHCrhflNgblREqb8Z carl@freia"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMPHPeLSIQgoO2MZCxAXoVxaaZVC0hp1oa81cFO3/zDf carl@nixos"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIED50DA1QiJerIlFy8Ea04dm1AOWHCrhflNgblREqb8Z carl@freia"
     ];
     initialPassword = "rpi";
   };
