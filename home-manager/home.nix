@@ -50,6 +50,7 @@
       grsh = "git reset --hard";
       gb = "git b";
       gc = "git c";
+      gd = "git diff";
       gsw = "git sw";
       gl = "git l";
       gst = "git st";

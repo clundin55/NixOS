@@ -79,6 +79,24 @@
             }
           ];
         };
+        brian-rpi = nixpkgs.lib.nixosSystem {
+          system = "aarch64-linux";
+          specialArgs = {
+            hostname = "brian-rpi";
+          };
+          modules = [
+            ./systems/rpi/rpi.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.carl = import ./home-manager/home.nix;
+              home-manager.extraSpecialArgs = {
+                isLaptop = true;
+              };
+            }
+          ];
+        };
       };
     };
 }
