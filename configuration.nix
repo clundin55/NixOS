@@ -87,6 +87,7 @@
     hyprpaper
     mako
     libnotify
+    cava
     pass
     stock-ticker
     waybar
