@@ -110,7 +110,7 @@
         }
       '')
     )
-    ((pkgs.sddm-astronaut.override { embeddedTheme = "post-apocalyptic_hacker"; }))
+    ((pkgs.sddm-astronaut.override { embeddedTheme = "black_hole"; }))
     (
       (pkgs.writeScriptBin "vpn-status.sh" ''
         #!${pkgs.bash}/bin/bash
