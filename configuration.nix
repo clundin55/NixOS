@@ -101,15 +101,6 @@
     rustup
     mpv
     mpvScripts.mpris
-    # Cool to trick to embed a rust binary in Nix.
-    # Can also do this with python, go, etc.
-    (
-      (pkgs.writers.writeRustBin "rust-test" { } ''
-        fn main() {
-          println!("Hello world");
-        }
-      '')
-    )
     ((pkgs.sddm-astronaut.override { embeddedTheme = "black_hole"; }))
     (
       (pkgs.writeScriptBin "vpn-status.sh" ''
