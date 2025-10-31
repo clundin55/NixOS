@@ -229,9 +229,9 @@
       selection.save_to_clipboard = true;
 
       window = {
-        decorations = "Full";
+        decorations = "None";
         dynamic_title = true;
-        opacity = 1.0;
+        opacity = 0.6;
         startup_mode = "Windowed";
         title = "Alacritty";
         option_as_alt = "OnlyLeft";

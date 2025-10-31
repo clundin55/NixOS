@@ -28,7 +28,7 @@
 * {
     border: none;
     font-family: Nerd Fonts;
-    font-size: 8;
+    font-size: 14px;
 }
 
 #waybar {
