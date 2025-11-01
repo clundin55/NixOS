@@ -10,9 +10,12 @@
 
     set -eu
     STATUS=$(mullvad status -j | jq '.state' -r)
+    TAIL_STATUS=$(tailscale status --json | jq '.BackendState' -r)
 
     if [[ "''${STATUS}" == "connected" ]]; then
         echo "🔒 $(mullvad status -j | jq '.details.location.city' -r)"
+    elif [[ "''${TAIL_STATUS}" == "Running" ]]; then
+        echo "🏠"
     else
         echo "🔓"
     fi
