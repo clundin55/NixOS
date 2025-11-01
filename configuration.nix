@@ -1,10 +1,13 @@
 {
   config,
   pkgs,
-  stock-ticker,
   agenix,
+  stock-ticker,
   ...
 }:
+let
+  scripts = import ./shared/scripts.nix { inherit config pkgs stock-ticker; };
+in
 {
   nix.settings.experimental-features = [
     "nix-command"
@@ -101,39 +104,10 @@
     rustup
     mpv
     mpvScripts.mpris
+    scripts.vpn-status
+    scripts.weather
+    scripts.stock-price
     ((pkgs.sddm-astronaut.override { embeddedTheme = "black_hole"; }))
-    (
-      (pkgs.writeScriptBin "vpn-status.sh" ''
-        #!${pkgs.bash}/bin/bash
-
-        set -eu
-        STATUS=$(mullvad status -j | jq '.state' -r)
-
-        if [[ "''${STATUS}" == "connected" ]]; then
-            echo "🔒 $(mullvad status -j | jq '.details.location.city' -r)"
-        else
-            echo "🔓"
-        fi
-      '')
-    )
-    (
-      (pkgs.writeScriptBin "weather.sh" ''
-        #!${pkgs.bash}/bin/bash
-
-        set -eu
-        curl -s 'wttr.in/North+Bend+WA?format=3&u' | sed 's/+/ /g' | tr '\n' ' '
-
-      '')
-    )
-    (
-      (pkgs.writeScriptBin "stock-price.sh" ''
-        #!${pkgs.bash}/bin/bash
-
-        set -eu
-        export PMP_KEY=$(cat "${config.age.secrets.pmp_key.path}")
-        stock-ticker --tickers GOOG
-      '')
-    )
   ];
   environment.pathsToLink = [ "/share/zsh" ];
 
