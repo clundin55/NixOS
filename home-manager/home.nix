@@ -111,38 +111,40 @@
     EDITOR = "nvim";
   };
 
+  programs.difftastic = {
+    enable = true;
+    options.display = "inline";
+    git.diffToolMode = true;
+    git.enable = true;
+  };
+
   programs.git = {
     enable = true;
-    userName = "Carl Lundin";
-    userEmail = "carllundin55@gmail.com";
-    difftastic = {
-      enable = true;
-      enableAsDifftool = true;
-      display = "inline";
-    };
-    aliases = {
-      "b" = "branch";
-      "co" = "checkout";
-      "c" = "commit";
-      "r" = "remote";
-      "d" = "diff";
-      "sw" = "switch";
-      "rs" = "reset";
-      "rsh" = "reset --hard";
-      "l" = "log";
-      "st" = "stash";
-      "ps" = "push";
-    };
-    ignores = [
-      "*.swp"
-    ];
-    extraConfig = {
+    settings = {
+      user.name = "Carl Lundin";
+      user.email = "carllundin55@gmail.com";
+      aliases = {
+        "b" = "branch";
+        "co" = "checkout";
+        "c" = "commit";
+        "r" = "remote";
+        "d" = "diff";
+        "sw" = "switch";
+        "rs" = "reset";
+        "rsh" = "reset --hard";
+        "l" = "log";
+        "st" = "stash";
+        "ps" = "push";
+      };
       url = {
         "git@github.com" = {
           insteadOf = "github";
         };
       };
     };
+    ignores = [
+      "*.swp"
+    ];
   };
 
   programs.scmpuff = {
