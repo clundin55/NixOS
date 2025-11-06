@@ -78,6 +78,7 @@ in
   environment.systemPackages = with pkgs; [
     alacritty
     bash
+    bluetui
     vim
     wl-clipboard
     zip
