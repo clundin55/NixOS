@@ -26,6 +26,7 @@
   '';
 
   services.hardware.bolt.enable = true;
+  services.fprintd.enable = true;
 
   powerManagement.enable = true;
 
