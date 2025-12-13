@@ -149,7 +149,13 @@ in
     script = ''
       #!${pkgs.bash}/bin/bash
       mkdir -p ~/.local/share/weather
-      ${scripts.weather}/bin/weather.sh > ~/.local/share/weather/north_bend.txt
+      TMP_FILE=$(mktemp)
+      ${scripts.weather}/bin/weather.sh > "$TMP_FILE"
+      if [ -s "$TMP_FILE" ]; then
+        mv "$TMP_FILE" ~/.local/share/weather/north_bend.txt
+      else
+        rm "$TMP_FILE"
+      fi
     '';
     serviceConfig = {
       Type = "oneshot";
@@ -163,6 +169,35 @@ in
     timerConfig = {
       OnCalendar = "hourly";
       Unit = "weather.service";
+      Persistent = true;
+    };
+  };
+
+  systemd.services.stock-price = {
+    script = ''
+      #!${pkgs.bash}/bin/bash
+      mkdir -p ~/.local/share/stock-price
+      TMP_FILE=$(mktemp)
+      ${scripts.stock-price}/bin/stock-price.sh > "$TMP_FILE"
+      if [ -s "$TMP_FILE" ]; then
+        mv "$TMP_FILE" ~/.local/share/stock-price/googl.txt
+      else
+        rm "$TMP_FILE"
+      fi
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+      User = "carl";
+    };
+  };
+
+  systemd.timers.stock-price = {
+    wantedBy = [ "timers.target" ];
+    partOf = [ "stock-price.service" ];
+    timerConfig = {
+      OnCalendar = "hourly";
+      Unit = "stock-price.service";
+      Persistent = true;
     };
   };
 

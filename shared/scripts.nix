@@ -32,6 +32,6 @@
 
     set -eu
     export PMP_KEY=$(cat "${config.age.secrets.pmp_key.path}")
-    stock-ticker --tickers GOOGL
+    ${stock-ticker}/bin/stock-ticker --tickers GOOGL
   '';
 }
