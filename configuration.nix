@@ -145,5 +145,26 @@ in
 
   services.openssh.enable = true;
 
+  systemd.services.weather = {
+    script = ''
+      #!${pkgs.bash}/bin/bash
+      mkdir -p ~/.local/share/weather
+      ${scripts.weather}/bin/weather.sh > ~/.local/share/weather/north_bend.txt
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+      User = "carl";
+    };
+  };
+
+  systemd.timers.weather = {
+    wantedBy = [ "timers.target" ];
+    partOf = [ "weather.service" ];
+    timerConfig = {
+      OnCalendar = "hourly";
+      Unit = "weather.service";
+    };
+  };
+
   system.stateVersion = "24.11";
 }
