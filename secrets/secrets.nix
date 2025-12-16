@@ -11,4 +11,8 @@ in
     loki
     freia
   ];
+  "namecheap-api.age".publicKeys = [
+    loki
+    freia
+  ];
 }

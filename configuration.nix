@@ -74,6 +74,12 @@ in
       owner = "carl";
       group = "users";
     };
+    namecheap = {
+      file = ./secrets/namecheap-api.age;
+      mode = "400";
+      owner = "acme";
+      group = "acme";
+    };
   };
 
   environment.systemPackages = with pkgs; [
@@ -91,6 +97,7 @@ in
     hyprpaper
     mako
     libnotify
+    unrar
     cava
     pass
     stock-ticker
@@ -161,6 +168,8 @@ in
     serviceConfig = {
       Type = "oneshot";
       User = "carl";
+      After = ["network-online.target"];
+      Wants = ["network-online.target"];
     };
   };
 
@@ -189,6 +198,8 @@ in
     serviceConfig = {
       Type = "oneshot";
       User = "carl";
+      After = ["network-online.target"];
+      Wants = ["network-online.target"];
     };
   };
 
@@ -199,6 +210,21 @@ in
       OnCalendar = "hourly";
       Unit = "stock-price.service";
       Persistent = true;
+    };
+  };
+
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = "carllundin55@gmail.com";
+    certs."clundin.dev" = {
+      dnsProvider = "namecheap";
+      extraDomainNames = [
+        "*.clundin.dev"
+      ];
+      environmentFile = "${pkgs.writeText "namecheap-creds" ''
+        NAMECHEAP_API_KEY_FILE=${config.age.secrets.namecheap.path}
+        NAMECHEAP_API_USER=clundin55
+      ''}";
     };
   };
 

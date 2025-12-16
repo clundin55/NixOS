@@ -22,11 +22,12 @@
 
   services.logind.settings.Login.HandleLidSwitch = "suspend-then-hibernate";
   systemd.sleep.extraConfig = ''
-    HibernateDelaySec=60m
+    HibernateDelaySec=15m
   '';
 
   services.hardware.bolt.enable = true;
-  services.fprintd.enable = true;
+  # Breaks hibernate to sleep
+  services.fprintd.enable = false;
 
   powerManagement.enable = true;
 
