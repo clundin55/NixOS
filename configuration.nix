@@ -40,6 +40,7 @@ in
       "networkmanager"
       "wheel"
       "docker"
+      "acme"
     ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMPHPeLSIQgoO2MZCxAXoVxaaZVC0hp1oa81cFO3/zDf carl@nixos"
@@ -226,6 +227,21 @@ in
         NAMECHEAP_API_USER=clundin55
       ''}";
     };
+  };
+
+  systemd.services.rsync-certs = {
+    path = [ pkgs.openssh ];
+    script = ''
+      #!${pkgs.bash}/bin/bash
+      ${pkgs.rsync}/bin/rsync /var/lib/acme/clundin.dev/key.pem odin:home-cluster/key.pem
+      ${pkgs.rsync}/bin/rsync /var/lib/acme/clundin.dev/full.pem odin:home-cluster/cert.pem
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+      User = "carl";
+    };
+    after = [ "acme-clundin.dev.service" ];
+    wants = [ "acme-clundin.dev.service" ];
   };
 
   system.stateVersion = "24.11";
