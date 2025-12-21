@@ -87,6 +87,7 @@ in
     alacritty
     bash
     bluetui
+    bitwarden-cli
     vim
     wl-clipboard
     zip
