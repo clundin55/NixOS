@@ -14,20 +14,6 @@
     ./hardware-configuration.nix
   ];
 
-  systemd.services.jellyfin = {
-    enable = true;
-    description = "Jellyfin ssh gateway";
-    after = [ "sshd.target" ];
-    wantedBy = [ "multi-user.target" ];
-
-    serviceConfig = {
-      Type = "simple";
-      ExecStart = "${pkgs.openssh}/bin/ssh -v jellyfin-proxy";
-      Restart = "on-failure";
-      RestartSec = "15s";
-    };
-  };
-
   nix.gc.automatic = true;
   nix.gc.persistent = true;
   nix.gc.dates = "weekly";
@@ -56,6 +42,18 @@
 
   services.tailscale.enable = true;
   services.pulseaudio.enable = false;
+
+  services.nginx = {
+    enable = true;
+    recommendedProxySettings = true;
+    virtualHosts."jellyfin" = {
+      listen = [ { addr = "0.0.0.0"; port = 8096; } ];
+      locations."/" = {
+        proxyPass = "http://100.113.49.85:8096";
+        proxyWebsockets = true;
+      };
+    };
+  };
 
   services.openssh.enable = true;
   services.openssh.settings.PasswordAuthentication = false;
