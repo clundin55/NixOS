@@ -117,6 +117,7 @@ in
     clang
     rustup
     mpv
+    nautilus
     mpvScripts.mpris
     scripts.vpn-status
     scripts.weather
@@ -130,18 +131,17 @@ in
   services.displayManager.sddm = {
     enable = true;
     theme = "sddm-astronaut-theme";
-    package = pkgs.kdePackages.sddm;
     extraPackages = [ pkgs.sddm-astronaut ];
     wayland.enable = true;
   };
 
-  services.desktopManager.plasma6.enable = false;
+  services.desktopManager.plasma6.enable = true;
 
   programs.niri.enable = true;
   programs.hyprlock.enable = true;
   programs.firefox.enable = true;
 
-  services.xserver.enable = false;
+  services.xserver.enable = true;
   services.playerctld.enable = true;
   services.tailscale.enable = true;
 
