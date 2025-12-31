@@ -109,7 +109,11 @@ in
     gemini-cli
     waypipe
     zellij
+    dig
+    pstree
+    nslookup
     jujutsu
+    ssh-tools
     clang
     rustup
     mpv
