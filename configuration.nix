@@ -111,7 +111,6 @@ in
     zellij
     dig
     pstree
-    nslookup
     jujutsu
     ssh-tools
     clang
