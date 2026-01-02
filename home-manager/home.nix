@@ -153,6 +153,19 @@
     enableZshIntegration = true;
   };
 
+  programs.jujutsu = {
+    enable = true;
+    settings = {
+      user = {
+        name = "Carl Lundin";
+        email = "carllundin55@gmail.com";
+      };
+      aliases = {
+        gp = ["git" "push"];
+      };
+    };
+  };
+
   programs.tmux = {
     enable = true;
     shell = "${pkgs.zsh}/bin/zsh";
