@@ -16,6 +16,7 @@ in
   nix.gc.automatic = true;
   nix.gc.persistent = true;
   nix.gc.dates = "weekly";
+  nix.gc.options = "--delete-older-than 30d";
 
   time.timeZone = "America/Los_Angeles";
   i18n.defaultLocale = "en_US.UTF-8";
