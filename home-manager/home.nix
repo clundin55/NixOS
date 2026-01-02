@@ -163,11 +163,18 @@
       aliases = {
         gp = ["git" "push"];
         gf = ["git" "fetch"];
+        b = ["bookmark" "set" "-r" "@-"];
+        bc = ["bookmark" "create" "-r" "@-"];
         l = ["log" "-r"];
         lc = ["log" "-r" "@::"];
         ld = ["log" "-r" "::@"];
       };
-    };
+      remotes = {
+        origin = {
+          auto-track-bookmarks = "glob:*";
+        };
+      };
+  };
   };
 
   programs.tmux = {
