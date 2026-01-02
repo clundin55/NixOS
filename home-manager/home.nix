@@ -162,6 +162,10 @@
       };
       aliases = {
         gp = ["git" "push"];
+        gf = ["git" "fetch"];
+        l = ["log" "-r"];
+        lc = ["log" "-r" "@::"];
+        ld = ["log" "-r" "::@"];
       };
     };
   };
