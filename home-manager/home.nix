@@ -173,6 +173,13 @@
         origin = {
           auto-track-bookmarks = "glob:*";
         };
+        upstream = {
+          auto-track-bookmarks = "main";
+        };
+      };
+      git = {
+        # Prevent pushing work in progress or anything explicitly labeled "private"
+        private-commits = "description(glob:'private:*')";
       };
   };
   };
