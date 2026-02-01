@@ -238,8 +238,8 @@
   services.hyprpaper = {
     enable = true;
     settings = {
-      preload = [ "~/Pictures/wallpaper.png" ];
-      wallpaper = [ ", ~/Pictures/wallpaper.png" ];
+      preload = [ "~/Pictures/wallpaper.jpg" ];
+      wallpaper = [ ", ~/Pictures/wallpaper.jpg" ];
     };
   };
 
