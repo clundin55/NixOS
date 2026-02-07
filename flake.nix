@@ -117,7 +117,7 @@
               services.nginx.streamConfig = ''
                 server {
                   listen 443;
-                  proxy_pass 100.113.49.85:8888;
+                  proxy_pass 192.168.50.33:8888;
                 }
               '';
               networking.firewall.allowedTCPPorts = [ 443 ];
