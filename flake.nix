@@ -97,6 +97,33 @@
             }
           ];
         };
+        zero-rpi = nixpkgs.lib.nixosSystem {
+          system = "aarch64-linux";
+          specialArgs = {
+            hostname = "zero-rpi";
+          };
+          modules = [
+            ./systems/rpi/rpi.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.carl = import ./home-manager/home.nix;
+              home-manager.extraSpecialArgs = {
+                isLaptop = true;
+              };
+            }
+            {
+              services.nginx.streamConfig = ''
+                server {
+                  listen 443;
+                  proxy_pass 100.113.49.85:8888;
+                }
+              '';
+              networking.firewall.allowedTCPPorts = [ 443 ];
+            }
+          ];
+        };
       };
     };
 }
