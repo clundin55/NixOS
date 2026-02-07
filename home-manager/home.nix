@@ -161,13 +161,40 @@
         email = "carllundin55@gmail.com";
       };
       aliases = {
-        gp = ["git" "push"];
-        gf = ["git" "fetch"];
-        b = ["bookmark" "set" "-r" "@-"];
-        bc = ["bookmark" "create" "-r" "@-"];
-        l = ["log" "-r"];
-        lc = ["log" "-r" "@::"];
-        ld = ["log" "-r" "::@"];
+        gp = [
+          "git"
+          "push"
+        ];
+        gf = [
+          "git"
+          "fetch"
+        ];
+        b = [
+          "bookmark"
+          "set"
+          "-r"
+          "@-"
+        ];
+        bc = [
+          "bookmark"
+          "create"
+          "-r"
+          "@-"
+        ];
+        l = [
+          "log"
+          "-r"
+        ];
+        lc = [
+          "log"
+          "-r"
+          "@::"
+        ];
+        ld = [
+          "log"
+          "-r"
+          "::@"
+        ];
       };
       remotes = {
         origin = {
@@ -181,7 +208,7 @@
         # Prevent pushing work in progress or anything explicitly labeled "private"
         private-commits = "description(glob:'private:*')";
       };
-  };
+    };
   };
 
   programs.tmux = {

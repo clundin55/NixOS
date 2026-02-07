@@ -175,8 +175,8 @@ in
     serviceConfig = {
       Type = "oneshot";
       User = "carl";
-      After = ["network-online.target"];
-      Wants = ["network-online.target"];
+      After = [ "network-online.target" ];
+      Wants = [ "network-online.target" ];
     };
   };
 
@@ -205,8 +205,8 @@ in
     serviceConfig = {
       Type = "oneshot";
       User = "carl";
-      After = ["network-online.target"];
-      Wants = ["network-online.target"];
+      After = [ "network-online.target" ];
+      Wants = [ "network-online.target" ];
     };
   };
 

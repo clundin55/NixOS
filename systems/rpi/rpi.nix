@@ -47,7 +47,12 @@
     enable = true;
     recommendedProxySettings = true;
     virtualHosts."jellyfin" = {
-      listen = [ { addr = "0.0.0.0"; port = 8096; } ];
+      listen = [
+        {
+          addr = "0.0.0.0";
+          port = 8096;
+        }
+      ];
       locations."/" = {
         proxyPass = "http://100.113.49.85:8096";
         proxyWebsockets = true;
