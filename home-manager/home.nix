@@ -90,7 +90,7 @@
     gnupg
     pinentry-tty
     tree
-    nixfmt-rfc-style
+    nixfmt
     nixfmt-tree
   ];
 
