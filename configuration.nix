@@ -89,6 +89,7 @@ in
     bash
     bluetui
     bitwarden-cli
+    comma
     vim
     wl-clipboard
     zip
