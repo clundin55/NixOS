@@ -92,6 +92,7 @@
     tree
     nixfmt
     nixfmt-tree
+    rclone
   ];
 
   home.file = {

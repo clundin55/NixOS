@@ -220,6 +220,27 @@ in
     };
   };
 
+  systemd.services.google-drive-sync = {
+    description = "Sync Google Drive";
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      User = "carl";
+      ExecStart = "${pkgs.rclone}/bin/rclone sync 'Google Drive': /home/carl/Documents/google-drive";
+    };
+  };
+
+  systemd.timers.google-drive-sync = {
+    wantedBy = [ "timers.target" ];
+    partOf = [ "google-drive-sync.service" ];
+    timerConfig = {
+      OnCalendar = "weekly";
+      Persistent = true;
+      Unit = "google-drive-sync.service";
+    };
+  };
+
   security.acme = {
     acceptTerms = true;
     defaults.email = "carllundin55@gmail.com";
