@@ -7,6 +7,7 @@
 }:
 let
   scripts = import ./shared/scripts.nix { inherit config pkgs stock-ticker; };
+  carlKeys = (import ./shared/keys.nix).carl;
 in
 {
   nix.settings.experimental-features = [
@@ -43,10 +44,7 @@ in
       "docker"
       "acme"
     ];
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMPHPeLSIQgoO2MZCxAXoVxaaZVC0hp1oa81cFO3/zDf carl@nixos"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIED50DA1QiJerIlFy8Ea04dm1AOWHCrhflNgblREqb8Z carl@freia"
-    ];
+    openssh.authorizedKeys.keys = carlKeys;
   };
 
   fonts.packages = [ pkgs.nerd-fonts.fira-code ];
@@ -123,6 +121,35 @@ in
     scripts.vpn-status
     scripts.weather
     scripts.stock-price
+    (pkgs.writeShellScriptBin "decrypt-backup" ''
+      if [ -z "$1" ]; then
+        echo "Usage: decrypt-backup <backup-file.age>"
+        exit 1
+      fi
+      
+      BACKUP_FILE="$1"
+      
+      if [ ! -f "$BACKUP_FILE" ]; then
+        echo "Error: File '$BACKUP_FILE' not found."
+        exit 1
+      fi
+      
+      # Try to find a suitable private key
+      KEY_FILE=""
+      if [ -f "$HOME/.ssh/id_ed25519" ]; then
+        KEY_FILE="$HOME/.ssh/id_ed25519"
+      else
+        echo "Error: No suitable SSH private key found in $HOME/.ssh/"
+        exit 1
+      fi
+
+      echo "Decrypting '$BACKUP_FILE' using key '$KEY_FILE'..."
+      
+      ${pkgs.age}/bin/age -d -i "$KEY_FILE" "$BACKUP_FILE" | \
+        ${pkgs.gnutar}/bin/tar --use-compress-program="${pkgs.zstd}/bin/zstd" -xv
+      
+      echo "Done."
+    '')
     ((pkgs.sddm-astronaut.override { embeddedTheme = "black_hole"; }))
   ];
   environment.pathsToLink = [ "/share/zsh" ];
@@ -238,6 +265,43 @@ in
       OnCalendar = "weekly";
       Persistent = true;
       Unit = "google-drive-sync.service";
+    };
+  };
+
+  systemd.services.google-drive-backup-odin = {
+    description = "Backup Google Drive to Odin";
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    path = [ pkgs.zstd ];
+    serviceConfig = {
+      Type = "oneshot";
+      User = "carl";
+    };
+    script = ''
+      DATE=$(${pkgs.coreutils}/bin/date +%F)
+      
+      TMP_DIR=$(mktemp -d)
+      trap 'rm -rf "$TMP_DIR"' EXIT
+      
+      ${pkgs.gnutar}/bin/tar -c --use-compress-program="${pkgs.zstd}/bin/zstd" -C /home/carl/Documents google-drive | \
+        ${pkgs.age}/bin/age \
+          ${pkgs.lib.concatMapStringsSep " \\\n    " (key: "-r \"${key}\"") carlKeys} \
+          > "$TMP_DIR/google-drive-$DATE.tar.gz.age"
+      
+      ${pkgs.rclone}/bin/rclone copy --ignore-checksum "$TMP_DIR/google-drive-$DATE.tar.gz.age" "Odin:/BigPlex/backups/google"
+      
+      # Verify the upload by downloading and checking the hash locally
+      ${pkgs.rclone}/bin/rclone check --download "$TMP_DIR/google-drive-$DATE.tar.gz.age" "Odin:/BigPlex/backups/google"
+    '';
+  };
+
+  systemd.timers.google-drive-backup-odin = {
+    wantedBy = [ "timers.target" ];
+    partOf = [ "google-drive-backup-odin.service" ];
+    timerConfig = {
+      OnCalendar = "monthly";
+      Persistent = true;
+      Unit = "google-drive-backup-odin.service";
     };
   };
 
