@@ -26,8 +26,7 @@
   '';
 
   services.hardware.bolt.enable = true;
-  # Breaks hibernate to sleep
-  services.fprintd.enable = false;
+  services.fprintd.enable = true;
 
   powerManagement.enable = true;
 
