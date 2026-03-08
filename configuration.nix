@@ -87,6 +87,7 @@ in
     bash
     bluetui
     bitwarden-cli
+    claude-code
     comma
     vim
     wl-clipboard
@@ -118,6 +119,9 @@ in
     mpv
     nautilus
     mpvScripts.mpris
+    wireguard-tools
+    scripts.mullvad-firefox-netns
+    scripts.mullvad-firefox
     scripts.vpn-status
     scripts.weather
     scripts.stock-price
