@@ -120,8 +120,6 @@ in
     nautilus
     mpvScripts.mpris
     wireguard-tools
-    scripts.mullvad-firefox-netns
-    scripts.mullvad-firefox
     scripts.vpn-status
     scripts.weather
     scripts.stock-price
@@ -159,6 +157,7 @@ in
   environment.pathsToLink = [ "/share/zsh" ];
 
   services.mullvad-vpn.enable = true;
+  programs.firejail.enable = true;
 
   services.displayManager.sddm = {
     enable = true;
