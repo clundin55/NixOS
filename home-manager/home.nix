@@ -3,7 +3,33 @@
   isLaptop ? false,
   ...
 }:
+let
+  pinentry-fingerprint = pkgs.writeShellScriptBin "pinentry" ''
+    PASSPHRASE_FILE="/run/agenix/gpg_passphrase"
+    FALLBACK="${pkgs.pinentry-tty}/bin/pinentry"
 
+    if [ ! -f "$PASSPHRASE_FILE" ]; then
+      exec "$FALLBACK" "$@"
+    fi
+
+    printf 'Scan fingerprint to unlock GPG key...\n' >&2
+    if ! ${pkgs.fprintd}/bin/fprintd-verify "$USER" >&2; then
+      exec "$FALLBACK" "$@"
+    fi
+
+    PASSPHRASE=$(tr -d '\n' < "$PASSPHRASE_FILE")
+
+    printf 'OK Pleased to meet you\n'
+    while IFS= read -r cmd; do
+      cmd="''${cmd%%$'\r'}"
+      case "$cmd" in
+        GETPIN*) printf 'D %s\nOK\n' "$PASSPHRASE" ;;
+        BYE*)    printf 'OK closing connection\n'; exit 0 ;;
+        *)       printf 'OK\n' ;;
+      esac
+    done
+  '';
+in
 {
   home.username = "carl";
   home.homeDirectory = "/home/carl";
@@ -275,7 +301,7 @@
     enable = true;
     defaultCacheTtl = 1800;
     enableSshSupport = true;
-    pinentry.package = pkgs.pinentry-tty;
+    pinentry.package = if isLaptop then pinentry-fingerprint else pkgs.pinentry-tty;
   };
 
   programs.alacritty = {

@@ -28,6 +28,13 @@
   services.hardware.bolt.enable = true;
   services.fprintd.enable = true;
 
+  age.secrets.gpg_passphrase = {
+    file = ../../secrets/gpg_passphrase.age;
+    mode = "400";
+    owner = "carl";
+    group = "users";
+  };
+
   powerManagement.enable = true;
 
   swapDevices = [
