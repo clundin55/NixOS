@@ -1,154 +1,147 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
-vim.opt.laststatus=2
-vim.opt.tabstop=4
-vim.opt.shiftwidth=4
-vim.opt.softtabstop=4
-vim.opt.expandtab=true
+vim.opt.laststatus = 2
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.softtabstop = 4
+vim.opt.expandtab = true
 vim.opt.termguicolors = true
 vim.opt.number = true
 vim.opt.spell = true
-vim.opt.filetype = "on"
-vim.opt.syntax = "on"
 vim.opt.relativenumber = true
-vim.opt.ruler = true
 vim.opt.undofile = true
 vim.opt.scrolloff = 8
-vim.opt.hidden = true
-vim.opt.colorcolumn="120"
+vim.opt.colorcolumn = "120"
 vim.opt.swapfile = false
-vim.o.completeopt = 'menuone,noselect'
+vim.opt.completeopt = 'menuone,noselect'
 
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-  if vim.v.shell_error ~= 0 then
-    vim.api.nvim_echo({
-      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out, "WarningMsg" },
-      { "\nPress any key to exit..." },
-    }, true, {})
-    vim.fn.getchar()
-    os.exit(1)
-  end
-end
-vim.opt.rtp:prepend(lazypath)
+local gh = function(x) return 'https://github.com/' .. x end
 
-require("lazy").setup({
-    spec = {
-        {
-          "folke/tokyonight.nvim",
-          opts = {
-            transparent = true,
-            styles = {
-              sidebars = "transparent",
-              floats = "transparent",
-            },
-          },
-        },
-        {
-          'mrcjkb/rustaceanvim',
-          version = '^6',
-          lazy = false,
-        },
-        "nvim-lua/plenary.nvim",
-        "tpope/vim-fugitive",
-        "tpope/vim-obsession",
-        "voldikss/vim-floaterm",
-        "jremmen/vim-ripgrep",
-        "kyazdani42/nvim-web-devicons",
-        "kyazdani42/nvim-tree.lua",
-        "nvim-treesitter/nvim-treesitter",
-        "hrsh7th/nvim-cmp",
-        "nvim-telescope/telescope.nvim",
-        "hrsh7th/cmp-nvim-lsp",
-        "hrsh7th/vim-vsnip",
-        "hrsh7th/cmp-vsnip",
-        "hrsh7th/cmp-buffer",
-        "nvim-lualine/lualine.nvim",
-        {
-          "MeanderingProgrammer/render-markdown.nvim",
-          ft = { "markdown", "codecompanion" }
-        }
-    }
+vim.pack.add({
+  gh('folke/tokyonight.nvim'),
+  gh('nvim-lua/plenary.nvim'),
+  gh('tpope/vim-fugitive'),
+  gh('tpope/vim-obsession'),
+  gh('voldikss/vim-floaterm'),
+  gh('nvim-tree/nvim-web-devicons'),
+  gh('nvim-tree/nvim-tree.lua'),
+  gh('nvim-treesitter/nvim-treesitter'),
+  gh('hrsh7th/nvim-cmp'),
+  gh('nvim-telescope/telescope.nvim'),
+  gh('hrsh7th/cmp-nvim-lsp'),
+  gh('hrsh7th/vim-vsnip'),
+  gh('hrsh7th/cmp-vsnip'),
+  gh('hrsh7th/cmp-buffer'),
+  gh('nvim-lualine/lualine.nvim'),
+  { src = gh('MeanderingProgrammer/render-markdown.nvim'), load = false },
 })
 
-require'nvim-tree'.setup {
-}
+-- Lazy-load render-markdown only for relevant filetypes
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown", "codecompanion" },
+  once = true,
+  callback = function() vim.cmd.packadd('render-markdown.nvim') end,
+})
 
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "rust", "markdown", "python", "c", "lua", "nix" },
-  sync_install = true,
-  highlight = {
-    enable = true,
-    additional_vim_regex_highlighting = false,
+require'nvim-tree'.setup {}
+
+require'nvim-treesitter'.install { 'rust', 'markdown', 'python', 'c', 'lua', 'nix' }
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'rust', 'markdown', 'python', 'c', 'lua', 'nix' },
+  callback = function()
+    vim.treesitter.start()
+  end,
+})
+
+vim.cmd[[colorscheme tokyonight]]
+require'tokyonight'.setup {
+  transparent = true,
+  styles = {
+    sidebars = "transparent",
+    floats = "transparent",
   },
 }
 
-vim.cmd[[colorscheme tokyonight]]
-vim.api.nvim_set_keymap('n', '<leader>o', ':NvimTreeToggle<cr>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>tc', ':FloatermNew<cr>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>tt', '<C-\\><c-n>:FloatermToggle<cr>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>ff', ':Telescope find_files<cr>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>fg', ':Telescope live_grep<cr>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>fgr', [[:lua require'telescope.builtin'.lsp_references()<cr>]], {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>fb', ':Telescope buffers<cr>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>fh', ':Telescope help_tags<cr>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>fe', [[:lua require'telescope.builtin'.diagnostics()<cr>]], {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>fw', [[:lua require'telescope.builtin'.grep_string()<cr>]], {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>ft', [[:lua require'telescope.builtin'.git_files()<cr>]], {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>fgs', [[:lua require'telescope.builtin'.git_status()<cr>]], {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>fgc', [[:lua require'telescope.builtin'.git_commits()<cr>]], {noremap=true})
+local map = function(key, cmd, opts)
+  vim.keymap.set('n', key, cmd, vim.tbl_extend('force', { noremap = true }, opts or {}))
+end
 
-vim.api.nvim_set_keymap('n', '<leader>cb', ':! cargo build<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>cc', ':! cargo check<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>ct', ':! cargo test<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>cl', ':! cargo clippy<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>cf', ':! cargo fmt<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>cd', ':! cargo doc --open<CR>', {noremap=true})
+map('<leader>o', ':NvimTreeToggle<cr>')
+map('<leader>tc', ':FloatermNew<cr>')
+map('<leader>tt', '<C-\\><c-n>:FloatermToggle<cr>')
+map('<leader>ff', ':Telescope find_files<cr>')
+map('<leader>fg', ':Telescope live_grep<cr>')
+map('<leader>fgr', function() require'telescope.builtin'.lsp_references() end)
+map('<leader>fb', ':Telescope buffers<cr>')
+map('<leader>fh', ':Telescope help_tags<cr>')
+map('<leader>fe', function() require'telescope.builtin'.diagnostics() end)
+map('<leader>fw', function() require'telescope.builtin'.grep_string() end)
+map('<leader>ft', function() require'telescope.builtin'.git_files() end)
+map('<leader>fgs', function() require'telescope.builtin'.git_status() end)
+map('<leader>fgc', function() require'telescope.builtin'.git_commits() end)
 
-vim.api.nvim_set_keymap('n', '<leader>ve', ':e ~/.config/nvim/init.lua<cr>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>vs', ':source ~/.config/nvim/init.lua<cr>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>vz', ':e ~/.zshrc<cr>', {noremap=true})
+map('<leader>cb', ':! cargo build<CR>')
+map('<leader>cc', ':! cargo check<CR>')
+map('<leader>ct', ':! cargo test<CR>')
+map('<leader>cl', ':! cargo clippy<CR>')
+map('<leader>cf', ':! cargo fmt<CR>')
+map('<leader>cd', ':! cargo doc --open<CR>')
 
-vim.api.nvim_set_keymap('n', '<leader>gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>gd', '<cmd>lua vim.lsp.buf.type_definition()<CR>', {noremap=true})
--- vim.api.nvim_set_keymap('n', '<leader>K', '<cmd>lua vim.lsp.buf.hover()<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>gq', '<cmd>lua vim.lsp.buf.implementation()<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader><C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>wa', '<cmd>lua vim.buf.add_workspace_folder()<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>wr', '<cmd>lua vim.buf.remove_workspace_folder()<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>D', '<cmd>lua vim.buf.type_definition()<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>gr', '<cmd>lua vim.lsp.buf.references()<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>]d', '<cmd>lua vim.diagnostic.goto_next()<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.set_loclist()<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', {noremap=true})
+map('<leader>ve', ':e ~/.config/nvim/init.lua<cr>')
+map('<leader>vs', ':source ~/.config/nvim/init.lua<cr>')
+map('<leader>vz', ':e ~/.zshrc<cr>')
 
-local bufnr = vim.api.nvim_get_current_buf()
+-- Diagnostic keymaps (global, not LSP-specific)
+-- <leader>e   open diagnostic float
+-- <leader>[d  previous diagnostic
+-- <leader>]d  next diagnostic
+-- <leader>q   diagnostics to loclist
+map('<leader>e', vim.diagnostic.open_float)
+map('<leader>[d', vim.diagnostic.goto_prev)
+map('<leader>]d', vim.diagnostic.goto_next)
+map('<leader>q', vim.diagnostic.setloclist)
 
-
--- rustaceanvim config
--- vim.g.rustaceanvim.tools.test_executor = 'background'
-
-vim.keymap.set(
-  "n", 
-  "K",  -- Override Neovim's built-in hover keymap with rustaceanvim's hover actions
-  function()
-    vim.cmd.RustLsp({'hover', 'actions'})
+-- LSP keymaps, buffer-local on attach
+--
+-- Neovim built-in (global, always available):
+--   grn        rename
+--   gra        code action (normal + visual)
+--   grr        references
+--   gri        implementation
+--   grt        type definition
+--   grx        codelens run
+--   gO         document symbols
+--   K          hover
+--   CTRL-S     signature help (insert mode)
+--
+-- Custom (set on LspAttach):
+--   <leader>gD  declaration
+--   <leader>C-k signature help (normal mode)
+--   <leader>wa  add workspace folder
+--   <leader>wr  remove workspace folder
+--   <leader>wl  list workspace folders
+--   <leader>f   format buffer
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(ev)
+    local lmap = function(key, cmd, opts)
+      vim.keymap.set('n', key, cmd, vim.tbl_extend('force', { noremap = true, buffer = ev.buf }, opts or {}))
+    end
+    lmap('<leader>gD', vim.lsp.buf.declaration)
+    lmap('<leader><C-k>', vim.lsp.buf.signature_help)
+    lmap('<leader>wa', vim.lsp.buf.add_workspace_folder)
+    lmap('<leader>wr', vim.lsp.buf.remove_workspace_folder)
+    lmap('<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end)
+    lmap('<leader>f', function() vim.lsp.buf.format() end)
   end,
-  { silent = true, buffer = bufnr }
-)
+})
 
-vim.api.nvim_set_keymap('n', '<leader>rlt', '<cmd> RustLsp testables<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>rle', '<cmd> RustLsp explainError<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>rld', '<cmd> RustLsp renderDiagnostic<CR>', {noremap=true})
-vim.api.nvim_set_keymap('n', '<leader>rlrd', '<cmd> RustLsp relatedDiagnostics<CR>', {noremap=true})
+vim.lsp.config('rust_analyzer', {
+  cmd = { 'rust-analyzer' },
+  filetypes = { 'rust' },
+  root_markers = { 'Cargo.toml', 'Cargo.lock', '.git' },
+})
+vim.lsp.enable('rust_analyzer')
 
 local cmp = require 'cmp'
 cmp.setup {
@@ -189,16 +182,16 @@ require'lualine'.setup {
   options = {
     icons_enabled = true,
     theme = 'dracula',
-    component_separators = { left = '', right = ''},
-    section_separators = { left = '', right = ''},
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
     disabled_filetypes = {},
     always_divide_middle = true,
   },
   sections = {
     lualine_a = {'mode'},
     lualine_b = {'branch', 'diff',
-                  {'diagnostics', sources={'nvim_lsp', 'coc'}}},
-    lualine_c = { 
+                  {'diagnostics', sources={'nvim_lsp'}}},
+    lualine_c = {
         { 'filename', file_status=true, path = 2}
     },
     lualine_x = {'encoding', 'fileformat', 'filetype'},
@@ -218,5 +211,5 @@ require'lualine'.setup {
 }
 
 require'nvim-web-devicons'.setup {
- default = true;
+  default = true,
 }

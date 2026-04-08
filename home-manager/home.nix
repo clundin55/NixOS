@@ -119,6 +119,8 @@ in
     nixfmt
     nixfmt-tree
     rclone
+    tree-sitter
+    gcc
   ];
 
   home.file = {
@@ -347,5 +349,5 @@ in
   };
 
   programs.home-manager.enable = true;
-  home.stateVersion = "24.11";
+  home.stateVersion = "26.05";
 }
