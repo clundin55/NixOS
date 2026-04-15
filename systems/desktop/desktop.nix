@@ -57,4 +57,29 @@
       setSocketVariable = true;
     };
   };
+
+  # Bridge networking for microvms
+  systemd.network.enable = true;
+  systemd.network.netdevs."10-microvm-br" = {
+    netdevConfig = {
+      Kind = "bridge";
+      Name = "microvm-br";
+    };
+  };
+  systemd.network.networks."10-microvm-br" = {
+    matchConfig.Name = "microvm-br";
+    networkConfig.Address = "10.0.100.1/24";
+  };
+  systemd.network.networks."10-vm-claude" = {
+    matchConfig.Name = "vm-claude";
+    networkConfig.Bridge = "microvm-br";
+  };
+  # Keep NetworkManager from managing the bridge and TAP
+  networking.networkmanager.unmanaged = [ "microvm-br" "vm-claude" ];
+
+  # NAT so the VM can reach the internet
+  networking.nat.enable = true;
+  networking.nat.internalInterfaces = [ "microvm-br" ];
+  networking.nat.externalInterface = "enp8s0";
+  boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
 }

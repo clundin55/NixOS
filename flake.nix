@@ -7,14 +7,18 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     stock-ticker.url = "github:clundin55/stock-ticker";
     agenix.url = "github:ryantm/agenix";
+    microvm.url = "github:microvm-nix/microvm.nix";
+    microvm.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
     inputs@{
+      self,
       nixpkgs,
       home-manager,
       stock-ticker,
       agenix,
+      microvm,
       ...
     }:
     {
@@ -30,6 +34,7 @@
             ./systems/desktop/hardware-configuration.nix
             home-manager.nixosModules.home-manager
             agenix.nixosModules.default
+            microvm.nixosModules.host
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
@@ -37,7 +42,18 @@
               home-manager.extraSpecialArgs = {
                 isLaptop = false;
               };
+              microvm.vms.claude-code.flake = self;
             }
+          ];
+        };
+        claude-code = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = {
+            carlKeys = (import ./shared/keys.nix).carl;
+          };
+          modules = [
+            microvm.nixosModules.microvm
+            ./systems/vms/claude-code.nix
           ];
         };
         freia = nixpkgs.lib.nixosSystem {
