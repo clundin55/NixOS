@@ -120,6 +120,8 @@ in
     nautilus
     mpvScripts.mpris
     wireguard-tools
+    libimobiledevice
+    ifuse
     scripts.vpn-status
     scripts.weather
     scripts.stock-price
@@ -155,6 +157,8 @@ in
     ((pkgs.sddm-astronaut.override { embeddedTheme = "black_hole"; }))
   ];
   environment.pathsToLink = [ "/share/zsh" ];
+
+  services.usbmuxd.enable = true;
 
   services.mullvad-vpn.enable = true;
   programs.firejail.enable = true;
@@ -336,6 +340,49 @@ in
     };
     after = [ "acme-clundin.dev.service" ];
     wants = [ "acme-clundin.dev.service" ];
+  };
+
+  boot.supportedFilesystems = [ "nfs" ];
+
+  fileSystems."/mnt/local-odin" = {
+    device = "192.168.50.33:/volume2/BigPlex";
+    fsType = "nfs";
+    options = [
+      "nfsvers=4.1"
+      "noauto"
+      "_netdev"
+      "x-systemd.automount"
+      "x-systemd.idle-timeout=600"
+      "soft"
+      "timeo=100"
+      "retrans=3"
+    ];
+  };
+
+  fileSystems."/mnt/odin" = {
+    device = "100.113.49.85:/volume2/BigPlex";
+    fsType = "nfs";
+    options = [
+      "nfsvers=4.1"
+      "noauto"
+      "_netdev"
+      "x-systemd.automount"
+      "x-systemd.idle-timeout=600"
+      "soft"
+      "timeo=100"
+      "retrans=3"
+    ];
+  };
+
+  systemd.services.nfs-unmount-before-sleep = {
+    description = "Unmount NFS shares before sleep/hibernate";
+    before = [ "sleep.target" ];
+    wantedBy = [ "sleep.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.util-linux}/bin/umount -f -l /mnt/local-odin /mnt/odin";
+      RemainAfterExit = true;
+    };
   };
 
   system.stateVersion = "24.11";
