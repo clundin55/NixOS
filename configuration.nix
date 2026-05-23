@@ -201,7 +201,7 @@ in
       TMP_FILE=$(mktemp)
       ${scripts.weather}/bin/weather.sh > "$TMP_FILE"
       if [ -s "$TMP_FILE" ]; then
-        mv "$TMP_FILE" ~/.local/share/weather/north_bend.txt
+        mv "$TMP_FILE" ~/.local/share/weather/weather.json
       else
         rm "$TMP_FILE"
       fi
@@ -231,7 +231,7 @@ in
       TMP_FILE=$(mktemp)
       ${scripts.stock-price}/bin/stock-price.sh > "$TMP_FILE"
       if [ -s "$TMP_FILE" ]; then
-        mv "$TMP_FILE" ~/.local/share/stock-price/googl.txt
+        mv "$TMP_FILE" ~/.local/share/stock-price/stock.json
       else
         rm "$TMP_FILE"
       fi
