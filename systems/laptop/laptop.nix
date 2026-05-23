@@ -46,6 +46,14 @@
 
   networking.hostName = "freia";
   networking.networkmanager.enable = true;
+  networking.networkmanager.dns = "systemd-resolved";
+
+  # When Tailscale MagicDNS is unreachable (traveling, server down), fall back
+  # to public resolvers instead of hanging.
+  services.resolved = {
+    enable = true;
+    fallbackDns = [ "1.1.1.1" "8.8.8.8" ];
+  };
 
   services.fwupd.enable = true;
 
