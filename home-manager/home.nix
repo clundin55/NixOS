@@ -305,8 +305,8 @@ in
         }
         {
           timeout = 600;
-          on-timeout = "hyprctl dispatch dpms off";
-          on-resume = "hyprctl dispatch dpms on";
+          on-timeout = "niri msg action power-off-monitors";
+          on-resume = "niri msg action power-on-monitors";
         }
         {
           timeout = 3600;
@@ -316,11 +316,18 @@ in
     };
   };
 
-  services.hyprpaper = {
-    enable = true;
-    settings = {
-      preload = [ "~/Pictures/wallpaper.jpg" ];
-      wallpaper = [ ", ~/Pictures/wallpaper.jpg" ];
+  systemd.user.services.swaybg = {
+    Unit = {
+      Description = "swaybg wallpaper";
+      After = [ "graphical-session.target" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.swaybg}/bin/swaybg -i %h/Pictures/wallpaper.jpg -m fill";
+      Restart = "on-failure";
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
     };
   };
 

@@ -97,7 +97,6 @@ in
     yazi
     yt-dlp
     zathura
-    hyprpaper
     mako
     libnotify
     unrar
@@ -125,6 +124,7 @@ in
     scripts.vpn-status
     scripts.weather
     scripts.stock-price
+    scripts.home-firefox
     (pkgs.writeShellScriptBin "decrypt-backup" ''
       if [ -z "$1" ]; then
         echo "Usage: decrypt-backup <backup-file.age>"
