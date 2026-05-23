@@ -27,6 +27,14 @@
     ${pkgs.curl}/bin/curl -s 'wttr.in/North+Bend+WA?format=3&u' | sed 's/+/ /g' | tr '\n' ' '
 
   '';
+  home-firefox = pkgs.writeScriptBin "home-firefox" ''
+    #!${pkgs.bash}/bin/bash
+
+    exec ${pkgs.firefox}/bin/firefox \
+      --proxy-server="socks5://localhost:9999" \
+      --setpref "network.proxy.socks_remote_dns=true" \
+      "$@"
+  '';
   stock-price = pkgs.writeScriptBin "stock-price.sh" ''
     #!${pkgs.bash}/bin/bash
 
