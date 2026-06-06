@@ -38,6 +38,8 @@
   services.openssh.enable = true;
   services.openssh.settings.PasswordAuthentication = false;
 
+  nixpkgs.config.allowUnfree = true;
+
   environment.systemPackages = with pkgs; [
     git
     claude-code

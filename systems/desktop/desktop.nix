@@ -36,6 +36,7 @@
   services.openssh.settings.X11Forwarding = true;
   services.openssh.settings.GatewayPorts = "yes";
 
+  nixpkgs.config.allowUnfree = true;
   nixpkgs.config.rocmSupport = true;
   services.ollama = {
     enable = true;
