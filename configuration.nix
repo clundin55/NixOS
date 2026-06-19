@@ -10,6 +10,8 @@ let
   carlKeys = (import ./shared/keys.nix).carl;
 in
 {
+  imports = [ ./shared/clundin-dev-proxy.nix ];
+
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
