@@ -74,12 +74,6 @@ in
       owner = "carl";
       group = "users";
     };
-    namecheap = {
-      file = ./secrets/namecheap-api.age;
-      mode = "400";
-      owner = "acme";
-      group = "acme";
-    };
   };
 
   environment.systemPackages = with pkgs; [
@@ -170,8 +164,6 @@ in
     wayland.enable = true;
   };
 
-  services.desktopManager.plasma6.enable = true;
-
   programs.niri.enable = true;
   programs.hyprlock.enable = true;
   programs.firefox.enable = true;
@@ -190,7 +182,6 @@ in
 
   programs.steam.enable = true;
   hardware.steam-hardware.enable = true;
-  services.flatpak.enable = true;
 
   services.openssh.enable = true;
 
@@ -310,36 +301,6 @@ in
       Persistent = true;
       Unit = "google-drive-backup-odin.service";
     };
-  };
-
-  security.acme = {
-    acceptTerms = true;
-    defaults.email = "carllundin55@gmail.com";
-    certs."clundin.dev" = {
-      dnsProvider = "namecheap";
-      extraDomainNames = [
-        "*.clundin.dev"
-      ];
-      environmentFile = "${pkgs.writeText "namecheap-creds" ''
-        NAMECHEAP_API_KEY_FILE=${config.age.secrets.namecheap.path}
-        NAMECHEAP_API_USER=clundin55
-      ''}";
-    };
-  };
-
-  systemd.services.rsync-certs = {
-    path = [ pkgs.openssh ];
-    script = ''
-      #!${pkgs.bash}/bin/bash
-      ${pkgs.rsync}/bin/rsync /var/lib/acme/clundin.dev/key.pem odin:home-cluster/key.pem
-      ${pkgs.rsync}/bin/rsync /var/lib/acme/clundin.dev/full.pem odin:home-cluster/cert.pem
-    '';
-    serviceConfig = {
-      Type = "oneshot";
-      User = "carl";
-    };
-    after = [ "acme-clundin.dev.service" ];
-    wants = [ "acme-clundin.dev.service" ];
   };
 
   boot.supportedFilesystems = [ "nfs" ];

@@ -47,6 +47,44 @@
     };
   };
 
+  services.desktopManager.plasma6.enable = true;
+  services.flatpak.enable = true;
+
+  age.secrets.namecheap = {
+    file = ../../secrets/namecheap-api.age;
+    mode = "400";
+    owner = "acme";
+    group = "acme";
+  };
+
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = "carllundin55@gmail.com";
+    certs."clundin.dev" = {
+      dnsProvider = "namecheap";
+      extraDomainNames = [ "*.clundin.dev" ];
+      environmentFile = "${pkgs.writeText "namecheap-creds" ''
+        NAMECHEAP_API_KEY_FILE=${config.age.secrets.namecheap.path}
+        NAMECHEAP_API_USER=clundin55
+      ''}";
+    };
+  };
+
+  systemd.services.rsync-certs = {
+    path = [ pkgs.openssh ];
+    script = ''
+      #!${pkgs.bash}/bin/bash
+      ${pkgs.rsync}/bin/rsync /var/lib/acme/clundin.dev/key.pem odin:home-cluster/key.pem
+      ${pkgs.rsync}/bin/rsync /var/lib/acme/clundin.dev/full.pem odin:home-cluster/cert.pem
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+      User = "carl";
+    };
+    after = [ "acme-clundin.dev.service" ];
+    wants = [ "acme-clundin.dev.service" ];
+  };
+
   hardware.amdgpu.opencl.enable = true;
   hardware.bluetooth.enable = false;
   services.blueman.enable = false;
