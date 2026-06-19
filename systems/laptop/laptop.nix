@@ -37,6 +37,23 @@
   services.hardware.bolt.enable = true;
   services.fprintd.enable = true;
 
+  # When the lid is closed (clamshell/docked) the fingerprint reader is awkward
+  # to reach, so skip it and fall back to the password prompt for sudo. The
+  # helper exits 0 only when the lid is closed; the control flag then jumps over
+  # the pam_fprintd rule (order 11400) straight to pam_unix. With the lid open
+  # the helper exits non-zero and is ignored, leaving fingerprint auth intact.
+  security.pam.services.sudo.rules.auth.skipFprintdInClamshell = {
+    order = 11399;
+    control = "[success=1 default=ignore]";
+    modulePath = "${pkgs.pam}/lib/security/pam_exec.so";
+    args = [
+      "quiet"
+      (toString (pkgs.writeShellScript "lid-closed" ''
+        ${pkgs.ripgrep}/bin/rg -q closed /proc/acpi/button/lid/*/state
+      ''))
+    ];
+  };
+
   age.secrets.gpg_passphrase = {
     file = ../../secrets/gpg_passphrase.age;
     mode = "400";

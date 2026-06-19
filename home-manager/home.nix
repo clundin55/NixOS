@@ -8,6 +8,12 @@ let
     PASSPHRASE_FILE="/run/agenix/gpg_passphrase"
     FALLBACK="${pkgs.pinentry-tty}/bin/pinentry"
 
+    # In clamshell mode (lid closed, docked) the fingerprint reader is awkward
+    # to reach, so fall back to passphrase entry.
+    if ${pkgs.ripgrep}/bin/rg -q closed /proc/acpi/button/lid/*/state 2>/dev/null; then
+      exec "$FALLBACK" "$@"
+    fi
+
     if [ ! -f "$PASSPHRASE_FILE" ]; then
       exec "$FALLBACK" "$@"
     fi
