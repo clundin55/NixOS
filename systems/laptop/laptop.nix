@@ -17,8 +17,17 @@
   boot.loader.systemd-boot.configurationLimit = 20;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelParams = [ "resume_offset=32563200" ];
+  boot.kernelParams = [
+    "resume_offset=32563200"
+    # Enable AMD P-state EPP for fine-grained CPU power/performance control
+    "amd_pstate=active"
+    # Allow PCIe devices to enter low-power link states aggressively
+    "pcie_aspm.policy=powersupersave"
+  ];
   boot.resumeDevice = "/dev/disk/by-uuid/a4be4019-5beb-4f5f-9d16-341c6bfbdf2f";
+
+  # Flush dirty pages every 15s instead of the default 5s — fewer SSD/CPU wakeups
+  boot.kernel.sysctl."vm.dirty_writeback_centisecs" = 1500;
 
   services.logind.settings.Login.HandleLidSwitch = "suspend-then-hibernate";
   systemd.sleep.settings.Sleep = {
@@ -36,6 +45,19 @@
   };
 
   powerManagement.enable = true;
+
+  # Manages amd_pstate EPP hint: power-saver / balanced / performance.
+  # Switch profiles via: powerprofilesctl set power-saver
+  services.power-profiles-daemon.enable = true;
+
+  # WiFi power saving — reduces idle draw without noticeable latency impact.
+  networking.networkmanager.wifi.powersave = true;
+
+  # PCI runtime PM: adding the rule below to services.udev.extraRules would
+  # allow idle PCIe devices (WiFi, NVMe) to enter D3. Small gain (~0.2W) but
+  # the MT7925 driver is new enough that it risks intermittent disconnects.
+  # Revisit once the mt7925e driver matures.
+  #   ACTION=="add", SUBSYSTEM=="pci", ATTR{power/control}="auto"
 
   swapDevices = [
     {
@@ -61,6 +83,7 @@
     fwupd
     brightnessctl
     moonlight-qt
+    spotify
   ];
 
   hardware.bluetooth.enable = true;

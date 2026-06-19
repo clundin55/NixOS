@@ -309,7 +309,7 @@ in
           on-resume = "niri msg action power-on-monitors";
         }
         {
-          timeout = 3600;
+          timeout = 900;
           on-timeout = "grep -q open /proc/acpi/button/lid/LID0/state && systemctl suspend";
         }
       ];
