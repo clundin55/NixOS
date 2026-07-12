@@ -86,6 +86,8 @@
   };
 
   hardware.amdgpu.opencl.enable = true;
+  hardware.graphics.enable = true;
+  hardware.graphics.enable32Bit = true;
   hardware.bluetooth.enable = false;
   services.blueman.enable = false;
 
