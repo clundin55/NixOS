@@ -9,6 +9,8 @@
     agenix.url = "github:ryantm/agenix";
     microvm.url = "github:microvm-nix/microvm.nix";
     microvm.inputs.nixpkgs.follows = "nixpkgs";
+    moonshine.url = "github:hgaiser/moonshine";
+    moonshine.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -19,6 +21,7 @@
       stock-ticker,
       agenix,
       microvm,
+      moonshine,
       ...
     }:
     {
@@ -35,6 +38,7 @@
             home-manager.nixosModules.home-manager
             agenix.nixosModules.default
             microvm.nixosModules.host
+            moonshine.nixosModules.default
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;

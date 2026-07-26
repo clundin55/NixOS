@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   isLaptop ? false,
   ...
 }:
@@ -309,6 +310,8 @@ in
           timeout = 300;
           on-timeout = "hyprlock";
         }
+      ]
+      ++ lib.optionals isLaptop [
         {
           timeout = 600;
           on-timeout = "niri msg action power-off-monitors";

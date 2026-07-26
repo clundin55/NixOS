@@ -10,15 +10,30 @@
   boot.loader.systemd-boot.configurationLimit = 20;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Tracking the latest kernel to chase amdgpu DC fixes for DP MST+DSC
+  # tiled-display bring-up (Dell U3224KB 6K black-screen bug).
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   networking.hostName = "loki";
   networking.networkmanager.enable = true;
 
-  services.sunshine = {
+  services.moonshine = {
     enable = true;
-    autoStart = false;
-    capSysAdmin = true;
+    user = "carl";
+    uid = 1000;
     openFirewall = true;
+    settings = {
+      application = [
+        {
+          title = "Steam";
+          command = [
+            "/run/current-system/sw/bin/steam"
+            "steam://open/bigpicture"
+          ];
+        }
+      ];
+    };
   };
 
   environment.systemPackages = with pkgs; [
@@ -121,6 +136,6 @@
   # NAT so the VM can reach the internet
   networking.nat.enable = true;
   networking.nat.internalInterfaces = [ "microvm-br" ];
-  networking.nat.externalInterface = "enp8s0";
+  networking.nat.externalInterface = "wlp14s0";
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
 }
