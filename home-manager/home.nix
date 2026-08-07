@@ -36,6 +36,55 @@ let
       esac
     done
   '';
+
+  # swaybg only ever shows one image, so rotate by starting a fresh instance and
+  # killing the previous one once the new one has painted.
+  swaybg-rotate = pkgs.writeShellScriptBin "swaybg-rotate" ''
+    set -u
+
+    dir="''${1:-$HOME/Pictures/wallpapers}"
+    interval="''${2:-300}"
+    overlap=2
+
+    prev=""
+
+    cleanup() {
+      [ -n "$prev" ] && kill "$prev" 2>/dev/null
+      exit 0
+    }
+    trap cleanup TERM INT
+
+    while :; do
+      readarray -t images < <(
+        find -L "$dir" -type f \
+          \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' \
+             -o -iname '*.webp' -o -iname '*.bmp' \) | shuf
+      )
+
+      if [ ''${#images[@]} -eq 0 ]; then
+        echo "swaybg-rotate: no wallpapers found in $dir" >&2
+        sleep 60
+        continue
+      fi
+
+      for img in "''${images[@]}"; do
+        ${pkgs.swaybg}/bin/swaybg -i "$img" -m fill &
+        next=$!
+
+        # Let the new instance render before tearing down the old one.
+        sleep "$overlap"
+        if [ -n "$prev" ]; then
+          kill "$prev" 2>/dev/null
+          wait "$prev" 2>/dev/null
+        fi
+        prev=$next
+
+        if [ "$interval" -gt "$overlap" ]; then
+          sleep "$((interval - overlap))"
+        fi
+      done
+    done
+  '';
 in
 {
   home.username = "carl";
@@ -327,12 +376,13 @@ in
 
   systemd.user.services.swaybg = {
     Unit = {
-      Description = "swaybg wallpaper";
+      Description = "swaybg wallpaper (rotating)";
       After = [ "graphical-session.target" ];
       PartOf = [ "graphical-session.target" ];
     };
     Service = {
-      ExecStart = "${pkgs.swaybg}/bin/swaybg -i %h/Pictures/wallpaper.jpg -m fill";
+      # Cycle through ~/Pictures/wallpapers, changing every 5 minutes.
+      ExecStart = "${swaybg-rotate}/bin/swaybg-rotate %h/Pictures/wallpapers 300";
       Restart = "on-failure";
     };
     Install = {
