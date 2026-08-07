@@ -103,6 +103,19 @@
     spotify
   ];
 
+  # Game stream host for Moonlight. Configured but idle by default: with
+  # autoStart off nothing pulls the unit into graphical-session.target, so it
+  # only runs after an explicit `systemctl --user start sunshine`. Web UI is on
+  # https://localhost:47990 once started.
+  services.sunshine = {
+    enable = true;
+    autoStart = false;
+    openFirewall = true;
+    # niri doesn't implement wlr-screencopy, so Sunshine falls back to DRM/KMS
+    # capture, which needs CAP_SYS_ADMIN.
+    capSysAdmin = true;
+  };
+
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 

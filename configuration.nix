@@ -95,7 +95,6 @@ in
     stock-ticker
     waybar
     xwayland-satellite
-    google-chrome
     gemini-cli
     waypipe
     zellij
