@@ -14,6 +14,17 @@
   # tiled-display bring-up (Dell U3224KB 6K black-screen bug).
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  boot.kernelParams = [
+    # Bit 0x400 enables HDMI 2.1 FRL, new in Linux 7.2 and off by default
+    # until VRR-over-FRL lands. Without it amdgpu caps HDMI at the 600 MHz
+    # TMDS ceiling and filters out every mode in the U3224KB's DisplayID
+    # block, including 6144x3456@60 (1392.91 MHz). FRL 48G carries that
+    # uncompressed at 8bpc (33.4 of 42.7 Gbps), so it sidesteps the DP
+    # MST+DSC tiling path entirely. 0x2 is the driver default -- OR it in
+    # rather than passing 0x400 alone, which would clear it.
+    "amdgpu.dcfeaturemask=0x402"
+  ];
+
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   networking.hostName = "loki";
   networking.networkmanager.enable = true;
@@ -62,7 +73,7 @@
     };
   };
 
-  services.desktopManager.plasma6.enable = true;
+  services.desktopManager.plasma6.enable = false;
   services.flatpak.enable = true;
 
   age.secrets.namecheap = {
