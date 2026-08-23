@@ -123,6 +123,8 @@ in
     scripts.home-firefox
     scripts.vpn-switch
     pavucontrol
+    dfu-util
+    usbutils
     fuzzel
     (pkgs.writeShellScriptBin "decrypt-backup" ''
       if [ -z "$1" ]; then
@@ -158,6 +160,11 @@ in
   environment.pathsToLink = [ "/share/zsh" ];
 
   services.usbmuxd.enable = true;
+
+  hardware.keyboard.qmk = {
+    enable = true;
+    keychronSupport = true;
+  };
 
   services.mullvad-vpn.enable = true;
   programs.firejail.enable = true;
