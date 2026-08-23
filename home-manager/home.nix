@@ -183,6 +183,8 @@ in
     ".config/nvim/init.lua".source = dotfiles/nvim.lua;
     ".config/mako/config".source = dotfiles/mako;
     ".config/niri/config.kdl".source = dotfiles/niri.kdl;
+    ".config/waybar/audio-menu.xml".source = dotfiles/audio-menu.xml;
+    ".config/waybar/vpn-menu.xml".source = dotfiles/vpn-menu.xml;
     ".config/hypr/hyprlock.conf".source = dotfiles/hyprlock.conf;
     ".config/zellij/config.kd".source = dotfiles/zellij.kdl;
     ".config/waybar/config".source =

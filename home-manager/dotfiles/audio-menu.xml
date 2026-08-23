@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Output picker for the waybar pulseaudio module. Item ids are wired to
+     pw-metadata commands in waybar.conf's "menu-actions".
+     Device names come from `pw-dump | jq '.[].info.props."node.name"'`. -->
+<interface>
+  <object class="GtkMenu" id="menu">
+    <child>
+      <object class="GtkMenuItem" id="sink-headphones">
+        <property name="label">Headphones (USB front)</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="sink-speakers">
+        <property name="label">Speakers (USB)</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="sink-spdif">
+        <property name="label">S/PDIF (USB)</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSeparatorMenuItem" id="sep1"/>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="sink-dell">
+        <property name="label">Dell U3224KB</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="sink-hdmi">
+        <property name="label">HDMI (Radeon)</property>
+      </object>
+    </child>
+  </object>
+</interface>

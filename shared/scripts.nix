@@ -53,4 +53,32 @@
     ${pkgs.jq}/bin/jq -cn --arg text "$GOOGL" --arg tooltip "$(printf "$TOOLTIP")" \
       '{text: $text, tooltip: $tooltip}'
   '';
+  vpn-switch = pkgs.writeScriptBin "vpn-switch" ''
+    #!${pkgs.bash}/bin/bash
+
+    # Switch the active VPN, driven by the waybar custom/vpn menu.
+    # Mullvad's kill switch blocks Tailscale, so selecting Tailscale drops
+    # Mullvad first. Selecting a Mullvad exit leaves Tailscale alone.
+    set -eu
+
+    mullvad_to() {
+      mullvad relay set location "$@"
+      mullvad connect
+    }
+
+    case "''${1:-}" in
+      tailscale) mullvad disconnect || true; tailscale up ;;
+      seattle)   mullvad_to us sea ;;
+      stockholm) mullvad_to se sto ;;
+      barcelona) mullvad_to es bcn ;;
+      off)       mullvad disconnect || true ;;
+      *)
+        echo "usage: vpn-switch [tailscale|seattle|stockholm|barcelona|off]" >&2
+        exit 1
+        ;;
+    esac
+
+    # Refresh the waybar module immediately instead of waiting for its poll.
+    ${pkgs.procps}/bin/pkill -RTMIN+5 waybar || true
+  '';
 }

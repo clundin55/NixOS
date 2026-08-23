@@ -121,6 +121,9 @@ in
     scripts.weather
     scripts.stock-price
     scripts.home-firefox
+    scripts.vpn-switch
+    pavucontrol
+    fuzzel
     (pkgs.writeShellScriptBin "decrypt-backup" ''
       if [ -z "$1" ]; then
         echo "Usage: decrypt-backup <backup-file.age>"

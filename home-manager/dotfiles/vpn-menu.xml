@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- VPN picker for the waybar custom/vpn module. Item ids map to
+     vpn-switch arguments in waybar.conf's "menu-actions". -->
+<interface>
+  <object class="GtkMenu" id="menu">
+    <child>
+      <object class="GtkMenuItem" id="vpn-tailscale">
+        <property name="label">Tailscale (home)</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSeparatorMenuItem" id="sep1"/>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="vpn-seattle">
+        <property name="label">Mullvad — Seattle</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="vpn-stockholm">
+        <property name="label">Mullvad — Stockholm</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="vpn-barcelona">
+        <property name="label">Mullvad — Barcelona</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSeparatorMenuItem" id="sep2"/>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="vpn-off">
+        <property name="label">Disconnect Mullvad</property>
+      </object>
+    </child>
+  </object>
+</interface>

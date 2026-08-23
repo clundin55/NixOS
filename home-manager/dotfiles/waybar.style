@@ -141,3 +141,28 @@
 #workspaces button.urgent {
   color: @red;
 }
+
+/* Output picker on #pulseaudio (see audio-menu.xml). */
+menu {
+  background-color: @mantle;
+  color: @text;
+  border: 1px solid @surface1;
+  border-radius: 1rem;
+  padding: 0.4rem;
+}
+
+menu menuitem {
+  padding: 0.4rem 1.2rem;
+  border-radius: 0.7rem;
+  min-width: 11rem;
+}
+
+menu menuitem:hover {
+  background-color: @surface1;
+  color: @maroon;
+}
+
+menu separator {
+  background-color: @surface1;
+  margin: 0.3rem 0.6rem;
+}
