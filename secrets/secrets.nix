@@ -10,10 +10,6 @@ in
     loki
     freia
   ];
-  "user_pass.age".publicKeys = [
-    loki
-    freia
-  ];
   "namecheap-api.age".publicKeys = [
     loki
     freia
