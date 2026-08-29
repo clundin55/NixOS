@@ -70,12 +70,6 @@ in
       owner = "carl";
       group = "users";
     };
-    user_pass = {
-      file = ./secrets/user_pass.age;
-      mode = "400";
-      owner = "carl";
-      group = "users";
-    };
   };
 
   environment.systemPackages = with pkgs; [
