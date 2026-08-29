@@ -60,7 +60,6 @@
   services.openssh.enable = true;
   services.openssh.settings.PasswordAuthentication = false;
   services.openssh.settings.X11Forwarding = true;
-  services.openssh.settings.GatewayPorts = "yes";
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.rocmSupport = true;

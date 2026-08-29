@@ -62,7 +62,6 @@
 
   services.openssh.enable = true;
   services.openssh.settings.PasswordAuthentication = false;
-  services.openssh.settings.GatewayPorts = "yes";
 
   networking.firewall = {
     enable = true;
