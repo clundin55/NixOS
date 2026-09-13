@@ -81,10 +81,10 @@
             }
           ];
         };
-        kyle-rpi = nixpkgs.lib.nixosSystem {
+        carl-rpi = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
           specialArgs = {
-            hostname = "kyle-rpi";
+            hostname = "carl-rpi";
           };
           modules = [
             ./systems/rpi/rpi.nix
@@ -96,6 +96,15 @@
               home-manager.extraSpecialArgs = {
                 isLaptop = true;
               };
+            }
+            {
+              services.nginx.streamConfig = ''
+                server {
+                  listen 443;
+                  proxy_pass 192.168.50.33:8888;
+                }
+              '';
+              networking.firewall.allowedTCPPorts = [ 443 ];
             }
           ];
         };
@@ -132,15 +141,6 @@
               home-manager.extraSpecialArgs = {
                 isLaptop = true;
               };
-            }
-            {
-              services.nginx.streamConfig = ''
-                server {
-                  listen 443;
-                  proxy_pass 192.168.50.33:8888;
-                }
-              '';
-              networking.firewall.allowedTCPPorts = [ 443 ];
             }
           ];
         };

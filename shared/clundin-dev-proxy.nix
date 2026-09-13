@@ -1,5 +1,5 @@
 # The *.clundin.dev services live behind Caddy on odin:8888, normally
-# reached via a TLS-passthrough proxy on zero-rpi (name -> zero-rpi:443 ->
+# reached via a TLS-passthrough proxy on carl-rpi (name -> carl-rpi:443 ->
 # odin:8888). Resolve them to loopback instead and proxy straight to odin:
 # the LAN address when reachable, seamlessly falling back to odin's
 # tailscale address when away. TLS stays end-to-end; Caddy serves the

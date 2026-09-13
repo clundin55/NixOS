@@ -8,7 +8,7 @@ NixOS flake configuration for all of Carl's machines.
 |---|---|
 | `loki` | Primary desktop |
 | `freia` | Laptop |
-| `kyle-rpi` / `brian-rpi` / `zero-rpi` | Raspberry Pis |
+| `carl-rpi` / `brian-rpi` / `zero-rpi` | Raspberry Pis |
 
 ## Applying changes
 
