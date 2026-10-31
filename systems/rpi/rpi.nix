@@ -18,6 +18,18 @@
   nix.gc.persistent = true;
   nix.gc.dates = "weekly";
 
+  system.autoUpgrade = {
+    enable = true;
+    flake = "github:clundin55/NixOS#${hostname}";
+    dates = "04:00";
+    randomizedDelaySec = "45min";
+    allowReboot = true;
+    rebootWindow = {
+      lower = "03:00";
+      upper = "06:00";
+    };
+  };
+
   time.timeZone = "America/Los_Angeles";
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {

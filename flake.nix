@@ -142,6 +142,10 @@
                 isLaptop = true;
               };
             }
+            {
+              # Too little RAM to rebuild on-device.
+              system.autoUpgrade.enable = nixpkgs.lib.mkForce false;
+            }
           ];
         };
       };
